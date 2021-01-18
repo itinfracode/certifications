@@ -364,6 +364,7 @@ Networking :-
                     ( mind here that name for pods can be accessed with subdomain [pod] and services via [svc])
         - Configuration of coreDNS can be found at  
             - /etc/cordns/Corefile
+            
         - Corefile is added to CoreDNS as a configmap object, to See
             - # kubectl get configmap -n kube-system
         - Whenever CoreDNS pod is deployed, it deploys "kube-dns" service, so ip address of "kube-dns" is configured as a nameserver in all pods, so
