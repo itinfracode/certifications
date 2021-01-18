@@ -2,3 +2,5 @@ Topic to Refer Multiple times
 
 - Taints & Tolerations
 - Node Affinity
+
+- Pod / Service Networking
