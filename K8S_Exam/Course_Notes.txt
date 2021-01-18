@@ -340,8 +340,11 @@ Networking :-
                 - If nothing specified in kube-proxy, it will default use iptables
                 - kube-proxy --proxy-mode [ userspace | iptables | ipvs ] ...
         - Ip range of all services can be set/found in [--service-cluster-ip-range]
-            # ps aux | grep kube-api-server
+            # kubectl describe kube-apiserver & see for
                 - --service-cluster-ip-range=<10.96.0.0/12>
+        - Logs of kube-proxy shows the type of proxy configured, like
+            - iptables
+            - firewalld
         - Kube proxy log can be found at /var/log/kube-proxy.log
             - Which shows entry of iptables rule added.
     
@@ -368,9 +371,13 @@ Networking :-
               -> nameserver 10.0.5.55 (cluster ip of kube-dns service)
         - Kubelet is responsible to configure nameserver in /etc/resolv.conf file in all pods when they gets deployed
         - "host" command is alternative to "dig"
-        - Only services can be queried via short name like 
-            # host web-server
-            - To query pod we have to enter whole line like 
+        - Only services can be queried via short name like
+            # host web-server or web-server.default or web-server.default.svc or web-server.default.svc.cluster.local
+                Except - web-server.default.svc.cluster (cluster at the end)
+                where
+                    default = namespace
+            
+            - To query pod we have to enter whole line like
                 # host 10-244-5-55.default.pod.cluster.local
     - ingress
         - Service nodeport can allocate ports higher than 30,000.
@@ -457,6 +464,7 @@ Questions for Exam :-
     - Do we need to handle apigroup ?
     - Do we have to do storage static provisioning as its related to cloud ?
     - Should I go deeper into the Network Namespaces ?
+    - Do we need to install DNS or troubleshoot it ?
 
 Aliases :-
 

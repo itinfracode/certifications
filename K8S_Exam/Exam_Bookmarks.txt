@@ -45,3 +45,6 @@ K8S Document Bookmarks for Exam:-
     Scheduling :-
     # Select Node for pod
     - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodename
+
+    # CoreDNS
+    - https://kubernetes.io/docs/tasks/administer-cluster/coredns/
