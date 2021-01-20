@@ -15,6 +15,11 @@ Scheduling :-
 
     1. DaemonSet
         - Almost same as ReplicaSet except kind is DaemonSet
+        - Master node daemonsets
+            - kube-proxy
+            - Weavenet
+            - flannel
+                etc.
 
     2. ReplicationController / ReplicaSet
 
@@ -118,14 +123,95 @@ Commands & Arguments :- Lecture 97
     - "args" overrides "cmd" (docker)
 
 Yaml :- Refer Yaml lecture
-    array (item start with -) :-
-        - env
-        - ports
-        - containers
-    dictionary :-
-        - metadata
-    list :-
-        - envFrom
+    1. key/value pair (Each separate item)
+    2. Array/List (Name & Below that list  start with - [dash] at the front) (Only Values)
+        - Ordered
+        - If not same sequence, then it will be different
+        - List title can be blank
+        - Values can be added by - (dash)
+            Eg.
+                Fruits:
+                - Apple
+                - Mangos
+                - Orange
+                Vegetables:
+                - Okra
+                - Egg plants
+
+                - These are two arrays.
+
+    3. Dictionary (Set of properties grouped together / Grouping - start after 2 spaces) (Key: Value)
+        - List of Dictionary
+        - If not same sequence, then it will be different
+        - Values can be added by key:value pair
+            Eg.
+                Fruits:
+                    name: apple
+                    color: red
+                Vegetable:
+                    name: Okra
+                    color: green
+
+        --> Now If you want to add nutritions in this, you must use "Dictionary in Dictionary"
+
+                Fruit:
+                    name: apple
+                    color: red
+                    nutritions:
+                        calories: 100g
+                        fat: 2g
+                        iron: 4g
+   
+        --> Now If I want to add multiple fruits/vegetables in Dictionary, You must use "List of Dictionaries"
+            Eg.
+                    -   name: apple
+                        color: red
+                        type: fruit
+                    -   name: mango
+                        color: Yellow
+                        type: fruit
+                    -   name: Okra
+                        Color: Green
+                        type: vegetable
+                    -   name: Egg Plant
+                        Color: Violet
+                        type: vegetable
+
+        --> Now if you want to add multiple fruits and its nutritions, you have to use list of dictionaries in dictionary
+
+                    - name: apple
+                      color: red
+                      nutritions:
+                            calories: 100g
+                            fat: 2g
+                            iron: 4g
+                    - name: mango
+                      color: yellow
+                      nutritions:
+                            calories: 150g
+                            fat: 20g
+                            iron: 40g
+
+        --> Array (With Title No key-value)
+
+                    Vegetables:
+                    - Egg Plant
+                    - Okra
+
+        --> List (No Title)
+
+                - Egg Plant
+                - Okra
+
+        --> Array/List of a dictionary (with Title)
+
+                    Vegetables:
+                    -   name: Egg Plant
+                        Color: Violet
+                    -   name: Okra
+                        Color: Green
+
+    4. Any line begining with # is comment
 
 Configmap :-
     - Imperative :-
@@ -192,12 +278,15 @@ ETCD Backup / Restore :-
                 --key=/etc/kubernetes/pki/etcd/server.key --cacert=/etc/kubernetes/pki/etcd/ca.crt
 
     - To Restore the backup
-        # etcdctl restore snapshot <directory> <snapshot name> --endpoints --cacert --cert --key --initial-token=<new etcd name>
-            # 
+        # etcdctl restore snapshot <directory> <snapshot name> --endpoints --cacert --cert --key --initial-token=<new etcd token name>
+
         # edit etcd yaml in /etc/kubernetes/manifests
-            - update volume
+            - update volume to restored directory in manifest file.
+            - Add --initial-token=<new etcd token name>
+
     - If you are using managed cluster, backup using quering cluster
         # kubectl get all --all-namespaces -o yaml >> all-backup.yaml
+
     - Always use "export ETCDCTL_API=3" before using etcd command
     - --listen-client-urls to know what ip is it listening.
 
@@ -364,7 +453,7 @@ Networking :-
                     ( mind here that name for pods can be accessed with subdomain [pod] and services via [svc])
         - Configuration of coreDNS can be found at  
             - /etc/cordns/Corefile
-            
+
         - Corefile is added to CoreDNS as a configmap object, to See
             - # kubectl get configmap -n kube-system
         - Whenever CoreDNS pod is deployed, it deploys "kube-dns" service, so ip address of "kube-dns" is configured as a nameserver in all pods, so
@@ -383,9 +472,39 @@ Networking :-
     - ingress
         - Service nodeport can allocate ports higher than 30,000.
         - Ingress controller (Service)
+            - Multiple services on a single hosted domain
+                - mywebsite.com/shopping
+                - mywebsite.com/devices
+                - mywebsite.com/subscription
+            - To avoid multiple load balancers
             - Nginx | Traefik | Haproxy | Istio
         - Ingress Resources (configuration/rule)
-            - 
+        - Different Ingress controllers
+            - GCP (https)/Load Balancer (GCE) - Google ones
+            - Nginx
+            - Contour
+            - HAproxy
+            - Traefik
+            - Istio
+        
+        - Ingress Setup
+            - Ingress Controller
+                - Deployment
+                    - Container
+                    - Configmap
+                    - Service (NodePort)
+                    - Service Account
+                        - roles
+                        - Clusterroles
+                        - Rolebindings
+            - Ingress resources/rules
+                - Single hostname and sub-directory based (url/directory)
+                    - Ingress resource
+                        - Backend - Service name & Service Port
+                - Subdomain based (host)
+                    - Ingress resource
+                        - Backend - Service with Host field
+                - If we don't specify host field, it consider it as * (All traffic coming to that rule)
 
 Install Cluster using kubeadm :-
     (You must add taint on Master node to prevent workload to be deployed on master)
@@ -400,13 +519,6 @@ Install Cluster using kubeadm :-
             - To avoid multiple commands execution & run kube-controller in active-passive mode
         - Same for scheduler
     
-    - Installation steps :-
-        - To Swap off on nodes
-            - vi /etc/fstab
-                - Comment swap line
-                - Reboot
-            - sudo swapoff -a
-
 Important Course Notes:-
     - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/15018998#overview
     - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14937836#overview
@@ -429,6 +541,8 @@ Important Course Notes:-
     - https://www.youtube.com/watch?v=-ovJrIIED88&list=PL2We04F3Y_41jYdadX55fdJplDvgNGENo&index=18
     - https://medium.com/better-programming/k8s-tips-give-access-to-your-clusterwith-a-client-certificate-dfb3b71a76fe
     - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/21615696#questions
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/16103293#questions
+    - https://training.linuxfoundation.org/wp-content/uploads/2019/08/Important-Tips-CKA-CKAD-Master-8.5.19.pdf
 
 To Refer Again :-
     - initContainer
@@ -466,6 +580,7 @@ Questions for Exam :-
     - Do we have to do storage static provisioning as its related to cloud ?
     - Should I go deeper into the Network Namespaces ?
     - Do we need to install DNS or troubleshoot it ?
+    - Installatin of Ingress controller is a part of course or just Ingress rules ?
 
 Aliases :-
 

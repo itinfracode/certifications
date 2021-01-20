@@ -1,0 +1,45 @@
+When Starting Exam :-
+
+    - Set Aliases & autocomplete
+
+        alias ktl='kubectl'
+
+        alias kgp='kubectl get pods -o wide'
+        alias kgpa='kubectl get pods --all-namespaces -o wide'
+        alias kgs='kubectl get svc -o wide'
+        alias kgsa='kubectl get svc --all-namespaces -o wide'
+        alias kgd='kubectl get deployments'
+        alias kgda='kubectl get deployments --all-namespaces'
+        alias kgn='kubectl get nodes -o wide'
+        alias kd='kubectl describe'
+        alias kn="kubectl config set-context --current --namespace"
+        complete -F __start_kubectl ktl
+
+    - Reverse search
+
+        $ Press keyboard shortcut "Ctrl+r" & type to search
+        $ Press "Ctrl+r" to scroll up        
+
+    - Always use namespace in yaml metadata if you are working on any other namespace
+
+    - To switch to root user in exam
+
+        $ sudo -i
+
+    - Don't just start application after Troubleshooting, verify the parameters required by exam are set properly and satisfied.
+
+    - Always use single > when taking backup of any resource to edit.
+        # kubectl get pod nginx -o yaml |grep -v "f:" > nginx_pod.yaml
+            Don't user ">>", it will append data
+
+    - Check kubelet process configuration file with
+        # ps -ef |grep -i kubelet
+
+    - kube-proxy is a daemonset, so to edit that
+        # kubectl edit ds kube-proxy -n kube-system
+
+    - # kubectl -A (-A means --all-namespaces)
+
+    - Never delete a resource before checking output file
+
+    - Don't forget to change namespace to default once your task in other namespace is done

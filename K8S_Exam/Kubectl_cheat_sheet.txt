@@ -467,3 +467,138 @@ Very Important Note
     - Notes while creating PVC
         - Access mode must match with PV
         - Storageclass / 
+
+--> Ingress
+
+    - In exam there will be questions to create Ingress rules
+
+        # Ingress Rules/Resources without host
+        - https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource
+        
+        # Ingress rule with Host
+        - https://kubernetes.io/docs/concepts/services-networking/ingress/#hostname-wildcards
+
+
+    - To see deployed ingress controller
+        - Check pods deployed in kube-system ns
+        # kubectl get pods --all-namespaces/-n kube-system
+
+    - Ingress Controller Deployment
+        # ktl create ns ingress-space
+        # kn ingress-space
+        # ktl create configmap nginx-configuration
+        # ktl create serviceaccount ingress-serviceaccount
+        # Create role & Rolebindings
+            - Role 
+                - Create/Get configmaps
+                - Get endpoints, namespaces, pods, secrets
+            - RoleBinding
+                - Serviceaccount
+                - New role
+        # Create ingress deployment
+        # Create ingress service to expose above deployment
+        # Create Ingress resources in application namespace
+        
+        # Ingress Resource (Rules) must be deployed in the namespace where actual services are deployed, not in ingress namespace
+
+--> Install cluster using kubeadm
+
+    - Installation steps :-
+
+        - Disable Swap on all nodes
+            $ vi /etc/fstab
+                - Comment swap line
+                - Reboot
+            - sudo swapoff -a
+        - check br_netfiler module loaded or not, if not, load module
+            $ lsmod | grep br_netfilter
+            $  sudo modprobe br_netfilter
+        - Follow docker installation document
+        - Install kubeadm
+        - We don't need to configure group driver in docker
+        - Follow "Using kubeadm to Create a Cluster" document
+            - Initialize control plane node using pod network cidr & --apiserver-advertise-address arguments
+        - Install Pod Network Addon
+        - Join worker nodes
+        - Run nginx and check
+
+--> Troubleshooting
+
+    - To Check logs
+        # kubectl logs <pod name> -f
+
+    - To check control plane components
+        - To check log of previous pod (If cluster deployed by kubeadm)
+            # kubectl logs <pod name> -f --previous
+
+            - Verify all pods are running in kube-system namespace
+            - Check logs 
+                # kubectl logs kube-apiserver
+
+    - If control plane components are deployed as services (not by kubeadm)
+        - Check control plane services
+            # service kube-apiserver status
+            # service kube-controller-manager status
+            # service kube-scheduler status
+        - To check logs
+            # journalctl -u kube-apiserver etc.
+
+    - Cluster Troubleshooting
+        - Cluster information can be checked
+            # kubectl cluster-info
+        - Check certificate path / mounted volume / volume names
+        - Control plane manifest files should be there in /etc/kubernetes/manifests
+
+    - Worker node Troubleshooting
+
+        - Check kubelet & kube-proxy services on worker nodes
+
+        - kubectl get nodes
+        - kubectl describe node <nodename>
+            - If node is out of disk - outofdisk flag it set to true
+            - Same for other
+            - When node is ready "Ready" flag is true, which is not an error.
+
+        - When worker node stop communicating to master, above stats show "Unknown"
+            - Check "LastHeartbeatTime" the time when node crashed.
+
+        - Check worker node services kubelet/kube-proxy
+            - cpu / memory / disk space on node
+            - service kubelet status / systemctl status kubelet / 
+                For additional log add "-l" like # systemctl status kubelet -l
+            - journalctl -u kubelet
+
+        - Check kubelet certificate
+            - /var/lib/kubelet/worker.crt
+
+        - Check kubelet process configuration file with
+
+            # ps -ef |grep -i kubelet
+
+        - Kubelet config file
+            - When we check $ service kubelet status
+                - We can see file path at "Drop-In"
+                    - /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+            /var/lib/kubelet/config.yaml
+
+        - Check kubelet config file & server port, which is api server port / Default - 6443
+
+        - If you are updating config file, reload daemon and then restart service
+            # systemctl daemon-reload
+            # systemctl restart kubelet
+
+        - Cluster information can be checked
+            # kubectl cluster-info
+
+    - Network
+        - Check if network addon is installed or not
+        - Check controller component description / logs 
+        - Check configmaps
+
+        - Kubeproxy mounts config from configmap, so we have to specify exact filename which inside configmap.
+        - Check for volume and mounts for pod env & configurations
+
+        - Check DNS resolution
+            - If not work
+                - Check kube-dns service in kube-system ns
+                - Match its selector with core-dns pods
