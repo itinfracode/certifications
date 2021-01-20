@@ -13,9 +13,14 @@ When Starting Exam :-
         alias kgn='kubectl get nodes -o wide'
         alias kd='kubectl describe'
         alias kn="kubectl config set-context --current --namespace"
-        
+
         complete -F __start_kubectl ktl
         echo "source <(kubectl completion bash)" >> ~/.bashrc
+
+        vimrc:- 
+
+            syntax on
+            set paste nu et ts=2 sw=2 nowrap
 
     - Reverse search
 

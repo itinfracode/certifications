@@ -1,0 +1,46 @@
+Go through after course / practices & mock exams
+
+- Taints & Tolerations
+- Node Affinity
+
+- Pod / Service Networking
+
+- Ingress Pathtype
+
+- Service Readiness Probe n all
+
+- Type of secrets
+
+- Must check before exam
+
+    - https://github.com/ahmetb/kubernetes-network-policy-recipes
+
+- You will be evaluated on 10 topics around Kubernetes administation:
+
+    Application Lifecycle Management 8%
+    Installation, Configuration & Validation 12%
+    Core Concepts 19%
+    Networking 11%
+    Scheduling 5%
+    Security 12%
+    Cluster Maintenance 11%
+    Logging / Monitoring 5%
+    Storage 7%
+    Troubleshooting 10%
+
+- https://www.cncf.io/certification/cka/
+
+- https://github.com/alijahnas/CKA-practice-exercises
+
+https://medium.com/@pmvk/tips-to-crack-certified-kubernetes-administrator-cka-exam-c949c7a9bea1
+https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552
+https://github.com/stretchcloud/cka-lab-practice
+https://levelup.gitconnected.com/kubernetes-cka-example-questions-practical-challenge-86318d85b4d
+https://medium.com/@imarunrk/certified-kubernetes-administrator-cka-tips-and-tricks-part-4-17407899ef1a
+https://github.com/ahmetb/kubernetes-network-policy-recipes
+https://github.com/mgonzalezo/CKA-Preparation
+https://gist.github.com/strongjz/4c9ad30a12ab715ae94cf72d0e7bbc30
+https://github.com/arush-sal/cka-practice-environment
+https://github.com/David-VTUK/CKA-StudyGuide
+https://katacoda.com/kubernetes
+https://gist.github.com/jonatasbaldin/4e76846ce8fb17e5d2fa64bdea594930
