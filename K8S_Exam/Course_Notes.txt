@@ -644,6 +644,6 @@ Weavenet Installation error localhost:8080 refused workaround
 
 - Kubectl get pods, READY shows running containers in pod / total containers in pod.
 
-- Must in exam
+- Must check before exam
 
     - https://github.com/ahmetb/kubernetes-network-policy-recipes
