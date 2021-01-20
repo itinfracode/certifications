@@ -595,8 +595,6 @@ alias kn="kubectl config set-context --current --namespace"
     - (use this with extreme caution, changing namespaces during exam means you need to return to default ns for every single question).
 
 =====
-source <(kubectl completion bash)
-echo "source <(kubectl completion bash)" >> ~/.bashrc
 alias k=kubectl
 complete -F __start_kubectl k
 alias k=kubectl
@@ -605,6 +603,7 @@ alias kgs="k get svc -o wide"
 alias kgd="k get deploy -o wide"
 alias kcc="kubectl config current-context"
 export do="--dry-run=client -o yaml"
+echo "source <(kubectl completion bash)" >> ~/.bashrc
 ======
 
 

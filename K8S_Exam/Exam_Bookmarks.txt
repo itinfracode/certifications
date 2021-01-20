@@ -1,19 +1,13 @@
 K8S Document Bookmarks for Exam:-
-    - https://kubernetes.io/docs/home/
     # create a deployment
     - https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment
     - https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
     - https://kubernetes.io/docs/reference/kubectl/conventions/
-    - https://kubernetes.io/docs/reference/kubectl/cheatsheet/
     - https://kubernetes.io/docs/reference/kubectl/overview/
-    - https://kubernetes.io/docs/concepts/storage/storage-classes/
     - https://kubernetes.io/docs/concepts/configuration/configmap/
     - https://kubernetes.io/docs/concepts/configuration/secret/
     - https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/
     - https://kubernetes.io/docs/tasks/debug-application-cluster/debug-cluster/
-    - Create pod
-        https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storage/#configure-a-volume-for-a-pod
-    - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ (NodeAffinity)
     - https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/
     - https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
     - https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
@@ -21,13 +15,8 @@ K8S Document Bookmarks for Exam:-
     - https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/
     - https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/
     - https://kubernetes.io/docs/setup/best-practices/certificates/
-    - https://kubernetes.io/docs/reference/access-authn-authz/authorization/ (Check access)
-    - https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/ (private registry secret)
     
-    # Network Policies to create firewall rules
-    - https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource
-
-    Volume - 
+Volume - 
     - https://kubernetes.io/docs/concepts/storage/volumes/#hostpath-configuration-example (Add Volume from Hostpath to Pod)
     - https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
     - https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/#create-a-persistentvolume ( Create Persistent volume from hostpath)
@@ -37,50 +26,75 @@ K8S Document Bookmarks for Exam:-
     - https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims
     - https://kubernetes.io/docs/concepts/storage/storage-classes/
 
-    Networking :-
 
-    # Weavenet installation
-    - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#steps-for-the-first-control-plane-node
-    - https://kubernetes.io/docs/concepts/services-networking/ingress/
 
-    Scheduling :-
-    # Select Node for pod
-    - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodename
 
     # CoreDNS
     - https://kubernetes.io/docs/tasks/administer-cluster/coredns/
 
-    # Ingress (Nginx)
+    # Ingress Controller (Nginx)
     - https://kubernetes.github.io/ingress-nginx/deploy/
     - https://github.com/kubernetes/ingress-nginx
     - https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/
     - https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
     
+
+    # Troubleshooting 
+    - https://kubernetes.io/docs/tasks/debug-application-cluster/
+
+
+
+
+
+Configured Bookmarks in Chrome :-
+
+    # Install Weavenet pod network addon
+    - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#stacked-control-plane-and-etcd-nodes
+
+    # View Certificates | decode | decrypt | x509
+    - https://kubernetes.io/docs/concepts/cluster-administration/certificates/
+
+    # Install cluster using kubeadm
+    - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#letting-iptables-see-bridged-traffic
+    - https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker
+    - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-kubeadm-kubelet-and-kubectl
+    - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#initializing-your-control-plane-node
+    - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#stacked-control-plane-and-etcd-nodes
+
+    # ETCD
+    - https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
+
+   # Create service
+    - https://kubernetes.io/docs/concepts/services-networking/service/#nodeport
+
+
+    # Clusterrole Role & RoleBindings
+    - https://kubernetes.io/docs/reference/access-authn-authz/rbac/#command-line-utilities
+
+    # simple ingress rule
+    - https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource
+
     # Ingress Rules/Resources without host
     - https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource
     
     # Ingress rule with Host
     - https://kubernetes.io/docs/concepts/services-networking/ingress/#hostname-wildcards
 
-    # Clusterrole Role & RoleBindings
-    - https://kubernetes.io/docs/reference/access-authn-authz/rbac/#command-line-utilities
-    
-    # Create service
-    - https://kubernetes.io/docs/concepts/services-networking/service/#nodeport
+    Scheduling :-
+    # Select Node for pod
+    - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodename
 
-    # ETCD
-    - https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
+    Kubeconfig :-
+    - https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
 
-    # Install cluster using kubeadm
-    - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
-    - https://kubernetes.io/docs/setup/production-environment/container-runtimes/
-    - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
+    - Create pod
+        https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storage/#configure-a-volume-for-a-pod
 
-    # Install Weavenet pod network addon
-    - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#stacked-control-plane-and-etcd-nodes
+    # Network Policies to create firewall rules
+    - https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource
 
-    # Troubleshooting 
-    - https://kubernetes.io/docs/tasks/debug-application-cluster/
+    # Secret create for private registry
+    - https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/ (private registry secret)
 
-    # View Certificates / decode / decrypt / x509
-    - https://kubernetes.io/docs/concepts/cluster-administration/certificates/
+    # Check User access | Authorization
+    - https://kubernetes.io/docs/reference/access-authn-authz/authorization/ (Check access)
