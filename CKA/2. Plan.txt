@@ -1,6 +1,8 @@
 
 Plan :-
 
+    - Disable address bar google search suggestions
+
     - Refer topics listed below & Practice all tests again
     - Refer Network Policies / Recipies
         - https://github.com/ahmetb/kubernetes-network-policy-recipes
