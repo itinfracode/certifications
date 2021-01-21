@@ -1,8 +1,1 @@
 - Disable address bar google search suggestions
-- Export bookmarks and save bookmark file in github
-- Test shortcut to Get current namespace shortcut
-    - https://stackoverflow.com/questions/55853977/how-to-get-the-current-namespace-of-current-context-using-kubectl
-    - Try
-        - kubectl config view --minify | grep namespace:
-- Test this in terminal
-    - export do="--dry-run=client -o yaml"
