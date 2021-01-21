@@ -12,13 +12,12 @@ alias kgd='kubectl get deployments'
 alias kgda='kubectl get deployments --A'
 alias kgn='kubectl get nodes -o wide'
 alias kn="kubectl config set-context --current --namespace"
+alias ns="kubectl config view --minify |grep -i namespace"
 export do="--dry-run=client -o yaml" 
-    #( Use with $do )
 
 complete -F __start_kubectl ktl
 source <(kubectl completion bash)
 
-alias ns="kubectl config view --minify |grep -i namespace"
 
 alias ke="kubectl explain" (super important when a typo error is blocking your way to the glory!)
 alias kcc="kubectl config current-context"
