@@ -1,8 +1,29 @@
 
+Plan :-
+
+    - Practice all tests again & Refer topics listed below
+    - Refer Network Policies / Recipies
+        - https://github.com/ahmetb/kubernetes-network-policy-recipes
+    - Give Mock exam
+    - https://github.com/alijahnas/CKA-practice-exercises
+    - https://katacoda.com/kubernetes
+    - https://www.katacoda.com/courses/kubernetes
+
+Just Go through :-
+    - https://github.com/stretchcloud/cka-lab-practice
+    - https://github.com/David-VTUK/CKA-StudyGuide
+    - https://github.com/mgonzalezo/CKA-Preparation
+
+Practice on local machine :-
+    
+    - https://github.com/arush-sal/cka-practice-environment
+
 Test / Check during lab
 
 alias ke="kubectl explain" (super important when a typo error is blocking your way to the glory!)
 alias kcc="kubectl config current-context"
+
+Important topics to refer again :-
 
 - Taints & Tolerations
 - Node Affinity
@@ -38,15 +59,10 @@ alias kcc="kubectl config current-context"
 - https://github.com/ahmetb/kubernetes-network-policy-recipes
 
 - https://www.cncf.io/certification/cka/
-
-- https://github.com/alijahnas/CKA-practice-exercises
-
+- https://training.linuxfoundation.org/wp-content/uploads/2019/08/Important-Tips-CKA-CKAD-Master-8.5.19.pdf
 
 After Course Read :-
 
-    - https://ma.ttias.be/learning-systemd/
-
-    - https://training.linuxfoundation.org/wp-content/uploads/2019/08/Important-Tips-CKA-CKAD-Master-8.5.19.pdf
 
     - https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
     - https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model
@@ -58,13 +74,6 @@ After Course Read :-
     
     - https://levelup.gitconnected.com/kubernetes-cka-example-questions-practical-challenge-86318d85b4d
 
-    - https://katacoda.com/kubernetes
-    - https://www.katacoda.com/courses/kubernetes
-
-    - https://github.com/arush-sal/cka-practice-environment
-    - https://github.com/David-VTUK/CKA-StudyGuide
-    - https://github.com/stretchcloud/cka-lab-practice
-    - https://github.com/mgonzalezo/CKA-Preparation
     - https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/recovery.md
     - https://gist.github.com/jonatasbaldin/4e76846ce8fb17e5d2fa64bdea594930
     - https://gist.github.com/strongjz/4c9ad30a12ab715ae94cf72d0e7bbc30
