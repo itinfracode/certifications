@@ -160,3 +160,24 @@ Configured Bookmarks in Chrome :-
 
     # Ingress Controller 04 | install Ingress controller | Nginx Ingress
     - https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
+
+    # Command | InitContainers | Command Example
+    - https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/#create-a-pod-that-has-an-init-container
+
+    # Manage TLS Certificates in a Cluster | Create CSR | CSR Signing Request
+    - https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/
+
+    # Assigning Pods to Nodes | Affinity
+    - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+
+    # General All
+    - https://kubernetes.io/docs/tasks/configure-pod-container/
+
+    # Secret use variable | secret environment variable | environment variable
+    - https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables
+
+    # Memory Request | Limits | Request
+    - https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/#specify-a-memory-request-and-a-memory-limit
+
+    # CPU Requests | Limits | Request
+    - https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/#specify-a-cpu-request-and-a-cpu-limit

@@ -1,7 +1,7 @@
 
 Plan :-
 
-    - Practice all tests again & Refer topics listed below
+    - Refer topics listed below & Practice all tests again
     - Refer Network Policies / Recipies
         - https://github.com/ahmetb/kubernetes-network-policy-recipes
     - Give Mock exam
@@ -9,10 +9,18 @@ Plan :-
     - https://katacoda.com/kubernetes
     - https://www.katacoda.com/courses/kubernetes
 
-Just Go through :-
+Just Go through :- (Check latest one and start with that)
+
+    - https://levelup.gitconnected.com/kubernetes-cka-example-questions-practical-challenge-86318d85b4d
     - https://github.com/stretchcloud/cka-lab-practice
     - https://github.com/David-VTUK/CKA-StudyGuide
     - https://github.com/mgonzalezo/CKA-Preparation
+    - https://gist.github.com/strongjz/4c9ad30a12ab715ae94cf72d0e7bbc30
+
+    - https://medium.com/better-programming/k8s-tips-give-access-to-your-clusterwith-a-client-certificate-dfb3b71a76fe
+    - https://medium.com/@pmvk/tips-to-crack-certified-kubernetes-administrator-cka-exam-c949c7a9bea1
+    - https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552
+    - https://medium.com/@imarunrk/certified-kubernetes-administrator-cka-tips-and-tricks-part-4-17407899ef1a
 
 Practice on local machine :-
     
@@ -20,28 +28,32 @@ Practice on local machine :-
 
 Test / Check during lab
 
+- kubectl get events
+- kubectl expose command
+- kubectl explain command
+
 alias ke="kubectl explain" (super important when a typo error is blocking your way to the glory!)
 alias kcc="kubectl config current-context"
 
 Important topics to refer again :-
 
 - Taints & Tolerations
-- Node Affinity
+- Node Affinity & Anti-Affinity & nodeSelector
+- Memory Request & Limits
 - Pod / Service Networking
 - Ingress Pathtype
 - Service Readiness Probe n all
 - Type of secrets
-- kubectl expose command
-- kubectl explain command
-- Must check before exam
 - Certificate API Lecture
 - Understand nodeport - port - mapping
 - Etcd Backup / restore
 - MultiMaster cluster Setup using kubeadm
-- Install configure ingress controller / ingress resources
-- kubectl get events
+- Install configure ingress ingress resources
 - Multiple Schedulers
 - Config files
+
+    - https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
+    - https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model
 
 - You will be evaluated on 10 topics around Kubernetes administation:
 
@@ -62,21 +74,6 @@ Important topics to refer again :-
 - https://training.linuxfoundation.org/wp-content/uploads/2019/08/Important-Tips-CKA-CKAD-Master-8.5.19.pdf
 
 After Course Read :-
-
-
-    - https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
-    - https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model
-
-    - https://medium.com/better-programming/k8s-tips-give-access-to-your-clusterwith-a-client-certificate-dfb3b71a76fe
-    - https://medium.com/@pmvk/tips-to-crack-certified-kubernetes-administrator-cka-exam-c949c7a9bea1
-    - https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552
-    - https://medium.com/@imarunrk/certified-kubernetes-administrator-cka-tips-and-tricks-part-4-17407899ef1a
-    
-    - https://levelup.gitconnected.com/kubernetes-cka-example-questions-practical-challenge-86318d85b4d
-
-    - https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/recovery.md
-    - https://gist.github.com/jonatasbaldin/4e76846ce8fb17e5d2fa64bdea594930
-    - https://gist.github.com/strongjz/4c9ad30a12ab715ae94cf72d0e7bbc30
     
     - https://www.youtube.com/watch?v=qRPNuT080Hk
     - https://www.youtube.com/watch?v=uUupRagM7m0&list=PL2We04F3Y_41jYdadX55fdJplDvgNGENo
