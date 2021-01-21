@@ -1,4 +1,7 @@
 Kubernetes :-
+
+--> Core Components
+
     - List of Control plane and other components
     Master :- 
         - kubeapi
@@ -11,7 +14,73 @@ Kubernetes :-
 
     - API (kube-api) server that is the only component which talks to etcd server.
 
+===================
+ CORE CONCEPTS
+===================
+
+    --> Create NS
+
+        # kubectl create ns dev-ns
+
+    --> Create Service
+
+        # kubectl create service clusterip redis-service --tcp=6379
+
+POD & Service :-
+
+    ---> Create the pod template file with dry-run
+
+        $ kubectl run nginx --image=nginx --dry-run=client -o yaml > nginx.yaml
+
+    --> Get pod by selecting multiple Labels
+
+        # kubectl get pods --selector=env=prod,bu=finance,tier=frontend
+
+    --> Create new POD / Expose it & Label it
+
+        # kubectl run custom-nginx --image=nginx --port=8080 -l tier=db
+
+    ---> Expose existing pod & create new service
+
+        $ kubectl expose pod nginx --name=nginx-service --port=80
+
+    --> Create Pod & Service (clusterIP) in a single command
+
+        Create a new pod called & create a service of type ClusterIP with target port 80
+
+        # kubectl run httpd --image=httpd:alpine --port=80 --expose
+
+==============
+Deployments :-
+==============
+
+    ---> Create a deployment without replica
+        
+        $ kubectl create deploy nginx-app --image=nginx
+
+    --> Create deployment with replica
+
+        # kubectl create deployment redis-deploy -n dev-ns --image=redis --replicas=2
+
+    --> To set image on existing deployment
+
+        # kubectl set image deployment <deployment name> <container name>=<image name>
+
+    # Scale existing deployment
+
+        $ kubectl scale deploy nginx-app --replicas=3
+
+Label / Labeling :- 
+
+--> Add Label - Some examples are
+
+    # kubectl label pods my-pod new-label=awesome 
+
+    # kubectl label node node01 color=blue
+
+==============
 Scheduling :-
+==============
 
     1. DaemonSet
         - Almost same as ReplicaSet except kind is DaemonSet
@@ -26,8 +95,30 @@ Scheduling :-
     3. Taints & Tolerations are meant to apply on nodes to accept certain pods to run on that node
         - It doesn't guarantee that tolerant pod will be deployed on tainted node, it just guarantee that no other in-tolerant pod gets deployed on that node.
         - Pod / Node guarantee achieved by "Node Affinity"
+
+            --> Create a taint on node01 with key of 'spray', value of 'mortein' and effect of 'NoSchedule'
+                Syntax
+                    # kubectl taint nodes node1 key1=value1:NoSchedule
+                    eg. 
+                    # kubectl taint node node01 spray=mortein:NoSchedule
+
+            --> Add Tolerataion to Pod
+
+                - https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/#concepts
+
+            --> Remove taint from node
+
+                Syntax
+                # kubectl taint nodes <nodename> <taint>-
+                    # taint value = Copy exact taint line from #kubectl describe node taint value
+                    # add - (dash) at the end to remove
+                Eg.
+                # kubectl taint nodes controlplane node-role.kubernetes.io/master:NoSchedule-
+
     4. Scheduling
+
         - Add property "NodeName: <node01>" in Pod manifest spec section to specifically place that pod on that node.
+    
     5. NodeSelector
         - Only single condition like ( NodeSelector = Large or NodeSelector= Medium)
         - Can't do like Place pod on NodeSelector Large or Medium or !small
@@ -78,6 +169,7 @@ Scheduling :-
             - https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/
 
     8. Custom/Multiple Scheduler
+
         - While creating a pod, you can instruct to K8S to use specific scheduler while scheduling this pod.
         - Add "--scheduler-name=<custom scheduler name> in arguments
         - If multiple schedulers running on multiple master nodes, we have to specify --leader-elect=true as only only one active scheduler must be there & --lock-object-name.
@@ -87,42 +179,86 @@ Scheduling :-
         - Remove startupprobe porbe from existing file
     
     9. Static pods
+
         - Create manifest file inside kubelet local directory
             - on local node see using command #docker ps
+
             - To check kubelet directory 
                 1 - controlplane $ ps -aux |grep -i kubelet
                     And check for configured file in "--config"
                         usr/bin/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf --config=/var/lib/kubelet/config.yaml 
                         --network-plugin=cni --pod-infra-container-image=k8s.gcr.io/pause:3.2
+
                 2 - As per service configuration open file & look for "staticPodPath:"
                     # cat /var/lib/kubelet/config.yaml |grep staticPodPath
-                    
                     - Default path - /etc/kubernetes/manifests/
+
         - On Master node it can be viewed via
             # kubectl get pods
 
-    -- Add "NodeName" to the pod manifest file, to manually schedule the pod to a specific node.
+        --> Check static pod on local node
+            # docker ps
 
-
+==============
 Monitoring :-
+==============
+
     - Cluster / Node / Pod
-    - # docker logs or kubectl logs 
+
+    - # docker logs or kubectl logs
+
       # kubectl logs -f <pod name>
+
       # In case, multiple containers in a single pod run 
         # kubectl logs -f <pod name> <container name>
 
+        --> To inspect metrics
 
-Update :-
+            # kubectl top node/nodes
+            # kubectl top pods
+
+        --> To see logs of a pod/application
+
+            # kubectl logs <pod name>
+            # kubectl logs <pod name> <container name>
+
+==============
+App Update :-
+==============
 
     - Two types (case sensitive)
         - Recreate (Delete all first and create new)
         - RollingUpdate (Delete one and create one)
 
-Commands & Arguments :- Lecture 97
-    - "command" overrides "entrypoint" (docker)
-    - "args" overrides "cmd" (docker)
+        --> To see rollout status / history
 
+            # kubectl rollout status deployment <deployment>
+
+            # kubectl rollout status deployment <deployment>
+
+============================
+Commands & Arguments :-
+============================
+
+    - "command" overrides "entrypoint" (in docker)
+
+    - "args" overrides "cmd" (in docker)
+
+        --> Dry Run and create only yaml through kubectl command example (Note --dry-run=client and -o yaml)
+
+        # kubectl run --restart=Never --image=busybox static-busybox --dry-run=client -o yaml --command -- sleep 1000 >> busybox.yaml
+
+    --> in Yaml Try to add command in container like this (Try to avoid in single line)
+
+        command:
+        - sh
+        - -c
+        - sleep 20
+
+============================
 Yaml :- Refer Yaml lecture
+============================
+
     1. key/value pair (Each separate item)
     2. Array/List (Name & Below that list  start with - [dash] at the front) (Only Values)
         - Ordered
@@ -213,7 +349,10 @@ Yaml :- Refer Yaml lecture
 
     4. Any line begining with # is comment
 
+==============
 Configmap :-
+==============
+
     - Imperative :-
         - kubectl create configmap
         - Eg.
@@ -221,21 +360,50 @@ Configmap :-
             (--from-literal it means key value pair in command itself )
             - #kubectl create configmap app-config --from-file=<filename>
 
+        --> Create configmap
+
+            # kubectl create configmap <configmap name> --from-literal=<key>=<value>
+
+            # Example :-
+
+                # kubectl create configmap colourconfigmap --fron-literal=APP_COLOR=blue
+
+
     - Declaritive :-
         - kubectl create -f <file>
-    
+
+==============
 Secrets :-
+==============
+
     - Convert normal data to hash (encode)
         # echo -n 'password/username' | base64
     - To decode
         # echo -n 'hashed password' | base64 --decode
 
+    --> Create Generic/Custom Secret (without username/password as a key)
+
+        # ktl create secret generic db-secret --from-literal=DB_Host=sql01 --from-literal=DB_User=root --from-literal=DB_Password=password123
+
+    --> Decode Certificate 
+        # openss x509 -in <certificate> -text -noout
+
+    # Create a secret name my-secret with username shekhar
+
+        $ kubectl create secret generic my-secret --from-literal username=shekhar​
+
+==============
 OS Update :-
+==============
+
     - If the node comes up immediately, kubelet starts and pods comes online.
     - If node is down for 5 mins, k8s consider that node to dead, If the pods were in Replicaset, then it will be recreated on another node.
     - If the pods were not a part of replicaset, it won't be created.
 
+============================
 Cluster Maintenance :-
+============================
+
     - If the node is down for 5 mins, then kubernetes declare that nodea as dead and terminate pods on it 
         & if the pods are part of ReplicaSet, then they are re-created on another node.
         - The time it waits for pods to come online, is known as Pod Eviction timeout
@@ -246,7 +414,16 @@ Cluster Maintenance :-
         - #kubectl cordon node-1 (Just mark node unschedulable, it doesn't move pods to another node)
         - #kubectl uncordon node-1 (Aftre reboot, To make the node schedulable)
 
+    ---> Cordon-Uncordon / Drain nodes
+        
+            - #kubectl drain node-1 (Move all pods running on that node and make that node unschedulable)
+                - Drain = Cordon + Unschedulable
+            - #kubectl cordon node-1 (Just mark node unschedulable, it doesn't move pods to another node)
+            - #kubectl uncordon node-1 (Aftre reboot, To make the node schedulable)  
+
+============================
 Cluster Upgrade :-
+============================
 
     - Kube-Api - None of other components should have higher version than kube-api (x)
         - Controller-manager (x-1)
@@ -257,7 +434,36 @@ Cluster Upgrade :-
 
     - First upgrade master & then upgrade worker nodes
 
+        - If there are only 2 nodes (master/worker), upgrade only one at a time
+            - Never use apt-get upgrade - always use update
+            - If only 2 node cluster (one master/one worker) then check taint on master, to know it can accept pod or not.
+
+                    - On Master
+
+                        - Drain master node
+                        - update kubeadm on master using apt
+                        - kubeadm upgrade plan
+                        - kubeadm upgrade apply <version>
+                        - update kubelet
+                        - systemctl restart kubelet/kubectl
+                        - kubeadm uncordon masternode
+
+                    - On slave
+
+                        - Drain node from master
+                        - update kubeadm using apt
+                        - kubeadm upgrade node
+                        - update kubelet/kubectl
+                        - systemctl restart kubelet
+                        - kubeadm uncordon node (from master)
+
+                    - Verify status of nodes
+
+                        - kubectl get nodes
+
+============================
 ETCD Backup / Restore :-
+============================
 
     - etcd is deployed as a static pod in the cluster
     - To know the version of current etcd version, inspect image of the etcd pod
@@ -292,7 +498,11 @@ ETCD Backup / Restore :-
 
     https://github.com/mmumshad/kubernetes-the-hard-way/blob/master/practice-questions-answers/cluster-maintenance/backup-etcd/etcd-backup-and-restore.md
 
---> Authorization
+
+====================================================================================
+--> Authorization | Role & Role Bindings | Cluster Role & Cluster Role Bindings
+====================================================================================
+
     - Node
         - Between Nodes - System:node certificate
     - ABAC ( Attribute Based )
@@ -302,21 +512,136 @@ ETCD Backup / Restore :-
         - Role is a set of permissions
     - Webhook
         - Outsource authorization mechanism, Install external agent where the access is granted
+
     - AlwaysAllow
         - Always allow without checking authorization rules
     - AlwaysDeny
         - Always deny without checking authorization rules
+
     - --authorization-mode=AlwaysAllow or any other mode in kube-api server
+
     - If we don't specify option (--authorization-mode) it is set to AlwaysAllow by deafult
+
     - We can spcify comma separated values like
+
         - --authorization-mode=Node,RBAC,Webhook
         - In this case, it handeled by Node authorizor, if it deny, then it is forwarded to next one
         - Once it is accepted, it doesn't go to next.
-    - We can add "ResourceName" in manifest file, to provide more specific access
+
+    - We can add "ResourceName" in manifest file, to provide more specific access in Role
+
         - Like access on Pod
         - Only Blue/Red Pod
 
+    --> Authorization Flow
+
+    - Process
+        - Create Role object
+        - Create role binding object
+    - To view RBAC
+        # kubectl get rbac
+        # kubectl get rolebindings
+    - To view role (developer)
+        # kubectl describe role <Role Name>
+        # kubectl describe role developer
+    - To view rolebindigs
+        # kubectl describe rolebindings <rolebinding name>
+    - To check my access
+        # kubectl auth can-i <permission>
+            Eg. - # kubectl auth cani-i create deployments
+                  # yes
+                  # kubectl auth cani-i delete deployments
+                  # no
+    - To check access of a user as an admin
+        # kubectl auth can-i create deployment --as <username>
+            Eg. # kubectl auth can-i create deployment --as otheruser
+                # yes
+                # kubectl auth can-i delete deployment --as otheruser
+                # no
+        or
+            # kubectl <command> --as <username>
+            # kubectl get pods --as dev-user
+
+        - We can specify different namespace in this command
+            # kubectl auth can-i create deployment --as developer --namespace dev
+            # yes
+            # kubectl auth can-i create deployment --as developer --namespace prod
+            # no
+    - We can add "ResourceName" in manifest file, to provide more specific access
+        - Like access on Pod
+            - Only Blue/Red Pod
+
+        - To check current authorization mode
+            - Check kube-api pod configuration
+                # kubectl describe pod kube-apiserver -n kube-system |grep -i authorization
+
+        --> Example Commands to create role and role bindings
+            - These role/rolebindings are namespaced ( They are created within namespace )
+                - If we don't sppecify --namespace argument, it will be created in/for default namespace
+            - ApiGroup is different for each resource like deployment/pod/volume etc, 
+                so use specific ApiGroup for each resource them while creating role.
+
+            - kubectl create role --help
+            - kubectl create role developer --verb=create,get,delete --resource=pods --namespace=default
+            - kubectl create rolebinding --help
+            - kubectl create rolebinding dev-user-binding --role
+            - kubectl edit role
+            - kubectl edit rolebindings
+
+    --> There are 2 types of resources
+        - namespaced
+        - Cluster
+        - To list the namespaced & non-namespaced resources
+            # kubectl api-resources --namespaced=true
+            or
+            # kubectl api-resources --namespaced=false
+
+    --> Clusterroles & Clusterrolebindings
+        - They are same as role & rolebindings but they are for cluster resources (clusterwide)
+
+        - If you create a cluster role and map it to a user, that user gets that access across the cluster in any namespace
+
+        - Examples
+
+            - To give all node access to user michelle
+                - kubectl create clusterrole mnoderole  --verb=* --resource=node
+                - kubectl create clusterrolebinding mnoderole --clusterrole=mnoderole --user=michelle
+
+            - To give storage management access to michelle
+                - kubectl create clusterrole storage-admin --verb=* --resource=persistentvolumes,storageclasses
+                - kubectl create clusterrolebinding michelle-storage-admin --clusterrole=storage-admin --user=michelle
+
+============================
+--> User authentication
+============================
+
+    --> Certificate API | CSI
+
+        - All the certificate related operations are carried out by Controller-Manager
+
+        - To encode certificate and make it inline
+            # cat certificate.csr |base64 -w0
+
+        - To decode the certificate data
+            # echo "encodedcontent" |base64 --decode
+        
+        - See the csr
+            # kubectl get csr
+            # kubectl certificate approve <name of certificate/csr>
+
+            # To inspect the csr
+                # kubectl describe <csr name>
+
+            # To Deny csr
+                # kubectl certificate deny <csr name>
+
+            # To Delete CSR
+                # kubectl delete csr <csr name>
+
+==========================================
 --> Securing Repository/Images
+==========================================
+
     - image:nginx
         - It means image:nginx/nginx
                     - user or account name / image or repository
@@ -327,27 +652,146 @@ ETCD Backup / Restore :-
         1. kubectl create secret docker-registry regcred 
         2. Use those credentials in pod spec at imagePullSecrets
 
+    --> Configure Credentials for private registry
+
+        - kubectl create secret docker-registry regcred
+
+            Eg. # kubectl create secret docker-registry private-reg-cred --docker-username=dock_user --docker-password=dock_password --docker-server=myprivateregistry.com:5000 --docker-email=dock_user@myprivateregistry.com
+
+        - And use that secret in pod spec at "imagePullSecrets"
+
+==========================================
 --> SecurityContext / Capabilities
+==========================================
 
---> Network Policy
+    --> Security Context
+        - Like runAsUser:
+        - Capabilities 
 
+        Note:
+        - Security context can be added on pod and container both but Capabilities can be added to container only not on pod.
+        - Check for another securityContext in yaml, if the one you added doesn't work.
+
+    # root user id is "0", So if you want to run anything as root in container/pod use
+        securityContext:
+          runAsUser: 0
+
+==========================================
+--> Netowrk Policy (Firewall)
+==========================================
+
+    - Ingress (Incoming to resource)
+    - Egress (Outgoing from resource)
+
+    - Create Network policy to allow Ingress traffic from pod-name & Ports like Firewall
+        - Create netowrk policy
+        - Add policy type (Ingress/Egress)
+        - PodSelector to apply policy to that pod
+
+    - Network policies aren't supported on Flannel
+
+==============
 Volume :-
+==============
+
     - Volume Mounting (New volume) & Bind Mounting (Existing Directory)
+
     - "Volumes" in "spec" & "VolumeMounts" in "containers"
+
+        --> Volumes are pv to be shared
+
+        --> VolumeMounts are to mount that volume into pod
+
     - PV (Persistent Volume) is a volume
     - PVClaim is to make that PV available on Node
+
     - PersistentVolumeReclaimPolicy : (Delete/Retain/Recycle)
         - Delete will delete PV when PersistentVolumeClaim is deleted
         - Retain will keep PV
         - Recycle will scrubbed before it will be available to another claim.
-    - Static Provisioning
+
+    - Volume Static Provisioning
         - You have to create volume on cloud provider and map it to PV manually
-    - Dynamic Provisioning
+
+    - Volume Dynamic Provisioning
         - Volume will be created automatically when you create PV
         - You don't have to manually create PV, You just need to create storageClass & Point that storageClass into the PersistentVolumeClaim.
             - PV created automatically by storageClass
 
+    - To mount host volume inside pod
+            - Create Volume at spec level
+            - Create volumemount inside container
+            - Use "hostPath" in volume (When we want to use local directory in volume)
+
+   - Check for accessmode if the PVClaim not showing available (May be size mismatch)
+
+    - Inside Pod
+
+        - PVClaim will be there as Volume
+        - Mount inside container as a volume
+        - ReClaim Policy
+            - Retain: When the PVC is deleted, the PV still exists. The volume is considered released, but it is not yet available because the previous data remains on the volume. If you want to delete it, you must do manually.
+                - PV will not be deleted nor available
+
+            - Delete: when the PVC is deleted, the PV and the associated storage in the external infrastructure (i.e. the Cinder storage in our case) are both deleted.
+        
+        - If PVC is being used in any pod, it can't be deleted.
+        
+        - PV status will show "Bound" if its bounded to PVC and it will show "Released" Once pvc is deleted.
+
+    - If you use Storage Class, don't need to create PV, just create SC on cluster & PersistentVolumeClaim inside pod.
+
+    - Understand available PV / PVC sizes
+    
+    - https://kubernetes.io/docs/concepts/storage/storage-classes/
+
+    - kubectl get storageclasses/sc
+        - Different Volume Binding modes
+            - Immediate (default)
+            - WaitForFirstConsumer
+
+    - Notes while creating PVC
+        - Access mode must match with PV
+        - Storageclass
+
+==============
+initContainer
+==============
+
+    - Container inside container
+
+    --> To check the state of the initContainer
+        # kubectl describe pod 
+            # check for "State" of that "initContainer"
+
+====================================================================================
+--> Kubeconfig ( Configuration file to save in home directory to switch context )
+====================================================================================
+
+    - Very Important
+
+    - clusters
+    - contexts
+    - users
+
+    - To view current config
+
+        # kubectl config view
+        # kubectl config view --kubeconfig=<file name>
+
+    - To change context
+        # kubectl config get-contexts
+        # kubectl config use-context <context name>
+        # kubectl config use-context dev-user@test-cluster-1 --kubeconfig=my-kube-config
+        # If you want to use ~/.kube/config file ( don't give argument --kubeconfig)
+
+            # kubectl config use-context <context name>
+
+    - The permission on ~/.kube/config file must be "600" (rw - only by owner)
+
+==============
 Networking :-
+==============
 
     - Network Namespace 
         - To check ip in current namespace
@@ -438,6 +882,7 @@ Networking :-
             - Which shows entry of iptables rule added.
     
     - CoreDNS
+
         - Whenever a service created, a dns-ip record created in kube-dns service in same Namespace
             - To access service in same namespace
                 # curl http://web-server
@@ -472,11 +917,11 @@ Networking :-
     - ingress
         - Service nodeport can allocate ports higher than 30,000.
         - Ingress controller (Service)
-            - Multiple services on a single hosted domain
+            - To host Multiple services on a single hosted domain
                 - mywebsite.com/shopping
                 - mywebsite.com/devices
                 - mywebsite.com/subscription
-            - To avoid multiple load balancers
+        - Available Ingress controllers
             - Nginx | Traefik | Haproxy | Istio
         - Ingress Resources (configuration/rule)
         - Different Ingress controllers
@@ -488,6 +933,7 @@ Networking :-
             - Istio
         
         - Ingress Setup
+
             - Ingress Controller
                 - Deployment
                     - Container
@@ -497,6 +943,7 @@ Networking :-
                         - roles
                         - Clusterroles
                         - Rolebindings
+
             - Ingress resources/rules
                 - Single hostname and sub-directory based (url/directory)
                     - Ingress resource
@@ -506,7 +953,35 @@ Networking :-
                         - Backend - Service with Host field
                 - If we don't specify host field, it consider it as * (All traffic coming to that rule)
 
+    --> Ingress
+
+        - To see deployed ingress controller
+            - Check pods deployed in kube-system ns
+            # kubectl get pods --all-namespaces/-n kube-system
+
+        - Ingress Controller Deployment
+
+            # ktl create ns ingress-space
+            # kn ingress-space
+            # ktl create configmap nginx-configuration
+            # ktl create serviceaccount ingress-serviceaccount
+            # Create role & Rolebindings
+                - Role 
+                    - Create/Get configmaps
+                    - Get endpoints, namespaces, pods, secrets
+                - RoleBinding
+                    - Serviceaccount
+                    - New role
+            # Create ingress deployment
+            # Create ingress service to expose above deployment
+            # Create Ingress resources in application namespace
+            
+            # Ingress Resource (Rules) must be deployed in the namespace where actual services are deployed, not in ingress namespace
+
+==========================================
 Install Cluster using kubeadm :-
+==========================================
+
     (You must add taint on Master node to prevent workload to be deployed on master)
     - Install Docker on all nodes
     - Install Kubeadm tool on all nodes
@@ -514,51 +989,134 @@ Install Cluster using kubeadm :-
     - Initialize Master
     - Setup Pod Network
     - Join Worker nodes
+
     - MultiMaster Setup
         - # kube-controller-manager --leader-elect true [other options]
             - To avoid multiple commands execution & run kube-controller in active-passive mode
         - Same for scheduler
+
+    --> Install cluster using kubeadm
+
+        - Installation steps :-
+
+            - Disable Swap on all nodes
+                $ vi /etc/fstab
+                    - Comment swap line
+                    - Reboot
+                - sudo swapoff -a
+            - check br_netfiler module loaded or not, if not, load module
+                $ lsmod | grep br_netfilter
+                $  sudo modprobe br_netfilter
+            - Follow docker installation document
+            - Install kubeadm
+            - We don't need to configure group driver in docker
+            - Follow "Using kubeadm to Create a Cluster" document
+                - Initialize control plane node using pod network cidr & --apiserver-advertise-address arguments
+            - Install Pod Network Addon
+            - Join worker nodes
+            - Run nginx and check
+
+============================
+--> Troubleshooting
+============================
+
+    - To Check logs
+        # kubectl logs <pod name> -f
+
+    - To login to container
+
+        # ktl exec -it <pod name> -n <namespace> -- sh/bash
+
+    - To check control plane components
+        - To check log of previous pod (If cluster deployed by kubeadm)
+            # kubectl logs <pod name> -f --previous
+
+            - Verify all pods are running in kube-system namespace
+            - Check logs 
+                # kubectl logs kube-apiserver
+
+    - If control plane components are deployed as services (not by kubeadm)
+        - Check control plane services
+            # service kube-apiserver status
+            # service kube-controller-manager status
+            # service kube-scheduler status
+
+        - To check logs
+            # journalctl -u kube-apiserver etc.
+            
+            --> To view the kubelet log
+
+            # journalctl -u kubelet -l
+
+        --> Check docker 
+            # docker ps & get container id
+            # docker logs <container id> # to check logs of that container
+            # docker logs <container id> -f # to check logs on the go
+
+    - Cluster Troubleshooting
+        - Cluster information can be checked
+            # kubectl cluster-info
+        - Check certificate path / mounted volume / volume names
+        - Control plane manifest files should be there in /etc/kubernetes/manifests
+
+    - Worker node Troubleshooting
+
+        - Check kubelet & kube-proxy services on worker nodes
+
+        - kubectl get nodes
+        - kubectl describe node <nodename>
+            - If node is out of disk - outofdisk flag it set to true
+            - Same for other
+            - When node is ready "Ready" flag is true, which is not an error.
+
+        - When worker node stop communicating to master, above stats show "Unknown"
+            - Check "LastHeartbeatTime" the time when node crashed.
+
+        - Check worker node services kubelet/kube-proxy
+            - cpu / memory / disk space on node
+            - service kubelet status / systemctl status kubelet / 
+                For additional log add "-l" like # systemctl status kubelet -l
+            - journalctl -u kubelet
+
+        - Check kubelet certificate
+            - /var/lib/kubelet/worker.crt
+
+        - Check kubelet process configuration file with
+
+            # ps -ef |grep -i kubelet
+
+        - Kubelet config file
+            - When we check $ service kubelet status
+                - We can see file path at "Drop-In"
+                    - /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+            /var/lib/kubelet/config.yaml
+
+        - Check kubelet config file & server port, which is api server port / Default - 6443
+
+        - If you are updating config file, reload daemon and then restart service
+            # systemctl daemon-reload
+            # systemctl restart kubelet
+
+        - Cluster information can be checked
+            # kubectl cluster-info
+
+        --> List all the events in current namespace
+
+            # kubectl get events
+
+    - Network Troubleshooting
     
-Important Course Notes:-
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/15018998#overview
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14937836#overview
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14937592#overview
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14827414#overview
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/15029482#overview
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14296046#overview
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/18478622#overview
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14410304#overview
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14296208#overview
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/17328568#overview
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14296132#overview
-    - https://www.youtube.com/watch?v=1rwCkFTjikw (Yaml Tips)
-    - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#steps-for-the-first-control-plane-node
-    - https://kubernetes.io/docs/concepts/cluster-administration/addons/
-    - https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14410330#overview
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/16827080#overview
-    - https://www.youtube.com/watch?v=uUupRagM7m0&list=PL2We04F3Y_41jYdadX55fdJplDvgNGENo
-    - https://www.youtube.com/watch?v=-ovJrIIED88&list=PL2We04F3Y_41jYdadX55fdJplDvgNGENo&index=18
-    - https://medium.com/better-programming/k8s-tips-give-access-to-your-clusterwith-a-client-certificate-dfb3b71a76fe
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/21615696#questions
-    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/16103293#questions
-    - https://training.linuxfoundation.org/wp-content/uploads/2019/08/Important-Tips-CKA-CKAD-Master-8.5.19.pdf
+        - Check if network addon is installed or not
+        - Check controller component description / logs 
+        - Check configmaps
 
-To Refer Again :-
-    - initContainer
+        - Kubeproxy mounts config from configmap, so we have to specify exact filename which inside configmap.
+        - Check for volume and mounts for pod env & configurations
 
-After Course Read :-
-    - https://github.com/ahmetb/kubernetes-network-policy-recipes
-    - https://github.com/mgonzalezo/CKA-Preparation
-    - https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
-    - https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/recovery.md
-    - https://www.youtube.com/watch?v=qRPNuT080Hk
-    - https://www.youtube.com/watch?v=uUupRagM7m0&list=PL2We04F3Y_41jYdadX55fdJplDvgNGENo
-    - https://www.youtube.com/watch?v=fYQBvjYQ63U 
-    - https://ma.ttias.be/learning-systemd/
-    - https://www.katacoda.com/courses/kubernetes
-    - https://github.com/mgonzalezo/CKA-Preparation
-
+        - Check DNS resolution
+            - If not work
+                - Check kube-dns service in kube-system ns
+                - Match its selector with core-dns pods
 
 Questions for Exam :-
     - Do we need to generate/ configure or install certificates / troubleshoot certificates in exam ?
@@ -582,48 +1140,6 @@ Questions for Exam :-
     - Do we need to install DNS or troubleshoot it ?
     - Installatin of Ingress controller is a part of course or just Ingress rules ?
 
-Aliases :-
-
-Bashrc:- 
-
-alias ktl=kubectl
-alias kgp="kubectl get -o wide"
-alias kgn='kubectl get nodes -o wide"
-alias ke="kubectl explain" (super important when a typo error is blocking your way to the glory!)
-alias kd="kubectl describe"
-alias kn="kubectl config set-context --current --namespace" 
-    - (use this with extreme caution, changing namespaces during exam means you need to return to default ns for every single question).
-
-=====
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-alias kgp="k get pod -o wide"
-alias kgs="k get svc -o wide"
-alias kgd="k get deploy -o wide"
-alias kcc="kubectl config current-context"
-export do="--dry-run=client -o yaml"
-echo "source <(kubectl completion bash)" >> ~/.bashrc
-======
-
-
-vimrc:- 
-
-syntax on
-set paste nu et ts=2 sw=2 nowrap
-
-
-- In AWS cluster, don't we need to create secret to pull image from AWS ECR repo ?
-
-- Practice :- 
-    - Add taint on master node to avoid workload to be deployed on that node.
-    - Etcd Backup / restore
-    - Deploy Kubernetes cluster using kubeadm
-
-
-kubeadm join 192.168.0.107:6443 --token t07i9t.9ohzz0a5wz5ercnm \
-    --discovery-token-ca-cert-hash sha256:92f7ebfa9f53c7bf7f020b4b370de6d9033ea86ee71fcd974ba7a26f854c3856
-
 Weavenet Installation error localhost:8080 refused workaround 
 
     # kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
@@ -632,18 +1148,3 @@ Weavenet Installation error localhost:8080 refused workaround
     # sudo chown $(id -u):$(id -g) $HOME/admin.conf
     # export KUBECONFIG=$HOME/admin.conf
 
-- Create nginx pod using kubectl
-    # kubectl run nginx --image=nginx
-
-- Delete node from cluster
-
-    - On Master
-        - kubectl uncordon node <node name>
-    - On Node
-        - kubeadm reset
-
-- Kubectl get pods, READY shows running containers in pod / total containers in pod.
-
-- Must check before exam
-
-    - https://github.com/ahmetb/kubernetes-network-policy-recipes

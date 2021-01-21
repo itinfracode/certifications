@@ -1,19 +1,26 @@
-Go through after course / practices & mock exams
+
+Test / Check during lab
+
+alias ke="kubectl explain" (super important when a typo error is blocking your way to the glory!)
+alias kcc="kubectl config current-context"
 
 - Taints & Tolerations
 - Node Affinity
-
 - Pod / Service Networking
-
 - Ingress Pathtype
-
 - Service Readiness Probe n all
-
 - Type of secrets
-
+- kubectl expose command
+- kubectl explain command
 - Must check before exam
-
-    - https://github.com/ahmetb/kubernetes-network-policy-recipes
+- Certificate API Lecture
+- Understand nodeport - port - mapping
+- Etcd Backup / restore
+- MultiMaster cluster Setup using kubeadm
+- Install configure ingress controller / ingress resources
+- kubectl get events
+- Multiple Schedulers
+- Config files
 
 - You will be evaluated on 10 topics around Kubernetes administation:
 
@@ -28,29 +35,60 @@ Go through after course / practices & mock exams
     Storage 7%
     Troubleshooting 10%
 
+- https://github.com/ahmetb/kubernetes-network-policy-recipes
+
 - https://www.cncf.io/certification/cka/
 
 - https://github.com/alijahnas/CKA-practice-exercises
 
-https://medium.com/@pmvk/tips-to-crack-certified-kubernetes-administrator-cka-exam-c949c7a9bea1
-https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552
-https://github.com/stretchcloud/cka-lab-practice
-https://levelup.gitconnected.com/kubernetes-cka-example-questions-practical-challenge-86318d85b4d
-https://medium.com/@imarunrk/certified-kubernetes-administrator-cka-tips-and-tricks-part-4-17407899ef1a
-https://github.com/ahmetb/kubernetes-network-policy-recipes
-https://github.com/mgonzalezo/CKA-Preparation
-https://gist.github.com/strongjz/4c9ad30a12ab715ae94cf72d0e7bbc30
-https://github.com/arush-sal/cka-practice-environment
-https://github.com/David-VTUK/CKA-StudyGuide
-https://katacoda.com/kubernetes
-https://gist.github.com/jonatasbaldin/4e76846ce8fb17e5d2fa64bdea594930
 
-network policies — use nc command from another pod
-RBAC - use the --as flag, e.g., kubectl get pods --as john
-services - use nc from another pod
-Create temporary pod - kubectl run nginx-pod --image nginx --rm --it -- bash #Creates temp pods with bash terminal, deletes after the session is over
+After Course Read :-
 
-Practice troubleshooting with:
-    kubectl logs nginx-pod
-    kubectl describe deploy nginx-deploy
-    kubectl get events
+    - https://ma.ttias.be/learning-systemd/
+
+    - https://training.linuxfoundation.org/wp-content/uploads/2019/08/Important-Tips-CKA-CKAD-Master-8.5.19.pdf
+
+    - https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
+    - https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model
+
+    - https://medium.com/better-programming/k8s-tips-give-access-to-your-clusterwith-a-client-certificate-dfb3b71a76fe
+    - https://medium.com/@pmvk/tips-to-crack-certified-kubernetes-administrator-cka-exam-c949c7a9bea1
+    - https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552
+    - https://medium.com/@imarunrk/certified-kubernetes-administrator-cka-tips-and-tricks-part-4-17407899ef1a
+    
+    - https://levelup.gitconnected.com/kubernetes-cka-example-questions-practical-challenge-86318d85b4d
+
+    - https://katacoda.com/kubernetes
+    - https://www.katacoda.com/courses/kubernetes
+
+    - https://github.com/arush-sal/cka-practice-environment
+    - https://github.com/David-VTUK/CKA-StudyGuide
+    - https://github.com/stretchcloud/cka-lab-practice
+    - https://github.com/mgonzalezo/CKA-Preparation
+    - https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/recovery.md
+    - https://gist.github.com/jonatasbaldin/4e76846ce8fb17e5d2fa64bdea594930
+    - https://gist.github.com/strongjz/4c9ad30a12ab715ae94cf72d0e7bbc30
+    
+    - https://www.youtube.com/watch?v=qRPNuT080Hk
+    - https://www.youtube.com/watch?v=uUupRagM7m0&list=PL2We04F3Y_41jYdadX55fdJplDvgNGENo
+    - https://www.youtube.com/watch?v=fYQBvjYQ63U
+    - https://www.youtube.com/watch?v=1rwCkFTjikw (Yaml Tips)
+    - https://www.youtube.com/watch?v=uUupRagM7m0&list=PL2We04F3Y_41jYdadX55fdJplDvgNGENo
+    - https://www.youtube.com/watch?v=-ovJrIIED88&list=PL2We04F3Y_41jYdadX55fdJplDvgNGENo&index=18
+
+Important Course Notes:-
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/15018998#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14937836#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14937592#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14827414#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/15029482#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14296046#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/18478622#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14410304#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14296208#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/17328568#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14296132#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14410330#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/16827080#overview
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/21615696#questions
+    - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/16103293#questions

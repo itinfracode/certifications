@@ -1,9 +1,9 @@
+
 When Starting Exam :-
 
     - Set Aliases & autocomplete
 
 alias ktl='kubectl'
-
 alias kgp='kubectl get pods -o wide'
 alias kgpa='kubectl get pods -A -o wide'
 alias kgs='kubectl get svc -o wide'
@@ -19,6 +19,9 @@ complete -F __start_kubectl ktl
 source <(kubectl completion bash)
 
 alias ns="kubectl config view --minify |grep -i namespace"
+
+alias ke="kubectl explain" (super important when a typo error is blocking your way to the glory!)
+alias kcc="kubectl config current-context"
 
         vimrc:- 
 
@@ -53,3 +56,62 @@ alias ns="kubectl config view --minify |grep -i namespace"
     - Never delete a resource before checking output file
 
     - Don't forget to change namespace to default once your task in other namespace is done
+
+    - Add label on kubectl command with -l <label>
+        Eg. - ktl run redis --image=redis:alpine -l tier=db
+
+    --> If you are exporting using -o yaml and get multiple metadata content, exclude using grep -v like
+
+    # kubectl get pod nginx -o yaml | grep -v "f:" > pod.yaml
+
+    --> To check which user excuting command inside container
+        # kubectl exec -it <pod name> whoami
+
+    --> To run a command inside a container
+        # kubectl exec -it <pod name> <container> -- <command>
+            - Specify container name if there are multiple containers
+
+Very Important Note 
+
+    - check for TABs if you get error "error converting YAML to JSON: yaml: line 47: found character that cannot start any token"
+    - Check and verify Indentation from doc if you get error
+
+- In exam there will be questions to create Ingress rules
+
+            # Ingress Rules/Resources without host
+            - https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource
+            
+            # Ingress rule with Host
+            - https://kubernetes.io/docs/concepts/services-networking/ingress/#hostname-wildcards
+
+- Changing namespaces during exam means you need to return to default ns for every single question
+
+- Kubectl get pods, READY shows running containers in pod / total containers in pod
+
+- "kubeadm reset" - Reset master or node / unjoin node
+
+- To remove a node from cluster (Eg. Node01)
+
+    - Drain that node
+        - kubectl drain node01
+    - On Node01
+        - kubeadm reset
+
+- network policies — use nc command from another pod to test
+
+    - To check my access
+        # kubectl auth can-i <permission>
+            Eg. - # kubectl auth cani-i create deployments
+                  # yes
+                  # kubectl auth cani-i delete deployments
+                  # no
+    - To check access of a user as an admin
+        # kubectl auth can-i create deployment --as <username>
+            Eg. # kubectl auth can-i create deployment --as otheruser
+                # yes
+                # kubectl auth can-i delete deployment --as otheruser
+                # no
+
+# Creates temp pods with bash terminal, deletes after the session is over / Exit from terminal
+
+    Create temporary pod - kubectl run nginx-pod --image nginx --rm --it -- bash

@@ -1,49 +1,4 @@
 K8S Document Bookmarks for Exam:-
-    # create a deployment
-    - https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment
-    - https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
-    - https://kubernetes.io/docs/reference/kubectl/conventions/
-    - https://kubernetes.io/docs/reference/kubectl/overview/
-    - https://kubernetes.io/docs/concepts/configuration/configmap/
-    - https://kubernetes.io/docs/concepts/configuration/secret/
-    - https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/
-    - https://kubernetes.io/docs/tasks/debug-application-cluster/debug-cluster/
-    - https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/
-    - https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
-    - https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
-    - https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/
-    - https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/
-    - https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/
-    - https://kubernetes.io/docs/setup/best-practices/certificates/
-    
-Volume - 
-    - https://kubernetes.io/docs/concepts/storage/volumes/#hostpath-configuration-example (Add Volume from Hostpath to Pod)
-    - https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
-    - https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/#create-a-persistentvolume ( Create Persistent volume from hostpath)
-    - https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/#create-a-persistentvolumeclaim
-    - https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/#create-a-pod (Use PersistentVolumeClaim inside Pod)
-    - https://kubernetes.io/docs/concepts/storage/persistent-volumes/#claims-as-volumes
-    - https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims
-    - https://kubernetes.io/docs/concepts/storage/storage-classes/
-
-
-
-    # CoreDNS
-    - https://kubernetes.io/docs/tasks/administer-cluster/coredns/
-
-    # Ingress Controller (Nginx)
-    - https://kubernetes.github.io/ingress-nginx/deploy/
-    - https://github.com/kubernetes/ingress-nginx
-    - https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/
-    - https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
-    
-
-    # Troubleshooting 
-    - https://kubernetes.io/docs/tasks/debug-application-cluster/
-
-
-
-
 
 Configured Bookmarks in Chrome :-
 
@@ -97,3 +52,111 @@ Configured Bookmarks in Chrome :-
 
     # Check User access | Authorization
     - https://kubernetes.io/docs/reference/access-authn-authz/authorization/ (Check access)
+
+    # Taint & Tolerations
+    - https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+
+    # Create configmap | kubectl 
+    - https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#create-configmaps-from-literal-values
+
+    # Use configmap in pod
+    - https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#define-a-container-environment-variable-with-data-from-a-single-configmap
+
+    # Decode Secret | Decode | Password | Managing Secret using kubectl
+    - https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/
+
+    # Create CSR | Approve CSR | Create key | Certificate API | User authorize | User authorization
+    - https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user
+
+    # Kubeconfig | Context | Configure Access to Multiple Clusters
+    - https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/#define-clusters-users-and-contexts
+
+    # RBAC
+    - https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+
+    # Secret | Creation | Private Registry | Pull an Image from a Private Registry
+    - https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-by-providing-credentials-on-the-command-line
+
+    # Security Context for a Pod or Container | Capabilities
+    - https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+
+    # Reset Node
+    - https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-reset/
+
+    # Install CNI | Plugin | Network | Installing Addons
+    - https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+    # Install cluster networking
+    - https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model
+
+    # Troubleshoot | Troubleshooting cluster | cluster
+    - https://kubernetes.io/docs/tasks/debug-application-cluster/
+
+    # Certificates | PKI certificates and requirements
+    - https://kubernetes.io/docs/setup/best-practices/certificates/
+
+    # Volume | Add Volume from Node Hostpath | directory | Node directory | Host directory
+    - https://kubernetes.io/docs/concepts/storage/volumes/#hostpath-configuration-example
+
+    # Volume | PV | Presistent Volume | Persistent from host | PV from node | PV from host
+    - https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/#create-a-persistentvolume
+
+    # Volume | Create PVC | Persistentvolumeclaim
+    - https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/#create-a-persistentvolumeclaim
+
+    # Volume | Use PVC | Use PersistentVolumeClaim inside Pod | As volume
+    - https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/#create-a-pod
+
+    # Volume | PVC as volume
+    - https://kubernetes.io/docs/concepts/storage/persistent-volumes/#claims-as-volumes
+
+    # Volume | StorageClass | Storage Classes
+    - https://kubernetes.io/docs/concepts/storage/storage-classes/
+
+    # Upgrading kubeadm cluster | upgrade | cluster | Upgrade cluster
+    - https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/
+
+    # Drain | Cordon | Uncordon | Node | Safely Drain a Node
+    - https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/
+
+    # InitContainer | Init Containers
+    - https://kubernetes.io/docs/concepts/workloads/pods/init-containers/#init-containers-in-use
+
+    # Scheduler | Multiple Schedulers
+    - https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/
+
+    # Troubleshoot Clusters
+    - https://kubernetes.io/docs/tasks/debug-application-cluster/debug-cluster/
+
+    # Pod | Static Pod | Create Static Pod
+    - https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/
+
+    # Secrets | Create Secret | Create Secres
+    - https://kubernetes.io/docs/concepts/configuration/secret/
+
+    # ConfigMaps | Use configmap in pod | config map
+    - https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps
+
+    # kubectl | kubectl 01 | kubectl utility | binary | Usage
+    - https://kubernetes.io/docs/reference/kubectl/overview/
+
+    # Kubectl | kubectl 02 | kubectl utility | binary | Usage
+    - https://kubernetes.io/docs/reference/kubectl/conventions/
+
+    # Core | ReplicaSet | Replica Set
+    - https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+
+    # Core | Deployments | Create deployment
+    - https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment
+
+    # Ingress Controller 01 | install Ingress controller | Nginx Ingress
+    - https://kubernetes.github.io/ingress-nginx/deploy/
+
+    # Ingress Controller 02 | install Ingress controller | Nginx Ingress
+    - https://github.com/kubernetes/ingress-nginx
+
+    # Ingress Controller 03 | install Ingress controller | Nginx Ingress
+    - https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/
+
+    # Ingress Controller 04 | install Ingress controller | Nginx Ingress
+    - https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
