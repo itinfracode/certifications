@@ -28,7 +28,6 @@ Volume -
 
 
 
-
     # CoreDNS
     - https://kubernetes.io/docs/tasks/administer-cluster/coredns/
 

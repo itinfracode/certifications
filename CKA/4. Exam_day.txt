@@ -2,20 +2,23 @@ When Starting Exam :-
 
     - Set Aliases & autocomplete
 
-        alias ktl='kubectl'
+alias ktl='kubectl'
 
-        alias kgp='kubectl get pods -o wide'
-        alias kgpa='kubectl get pods -A -o wide'
-        alias kgs='kubectl get svc -o wide'
-        alias kgsa='kubectl get svc --A -o wide'
-        alias kgd='kubectl get deployments'
-        alias kgda='kubectl get deployments --A'
-        alias kgn='kubectl get nodes -o wide'
-        alias kd='kubectl describe'
-        alias kn="kubectl config set-context --current --namespace"
+alias kgp='kubectl get pods -o wide'
+alias kgpa='kubectl get pods -A -o wide'
+alias kgs='kubectl get svc -o wide'
+alias kgsa='kubectl get svc --A -o wide'
+alias kgd='kubectl get deployments'
+alias kgda='kubectl get deployments --A'
+alias kgn='kubectl get nodes -o wide'
+alias kn="kubectl config set-context --current --namespace"
+export do="--dry-run=client -o yaml" 
+    #( Use with $do )
 
-        complete -F __start_kubectl ktl
-        echo "source <(kubectl completion bash)" >> ~/.bashrc
+complete -F __start_kubectl ktl
+source <(kubectl completion bash)
+
+alias ns="kubectl config view --minify |grep -i namespace"
 
         vimrc:- 
 
