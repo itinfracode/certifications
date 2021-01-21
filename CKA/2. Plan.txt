@@ -37,7 +37,7 @@ Test / Check during lab
 alias ke="kubectl explain" (super important when a typo error is blocking your way to the glory!)
 alias kcc="kubectl config current-context"
 
-Important topics to refer again :-
+Important topics to refer again (Refer saved screenshots):-
 
 - Taints & Tolerations
 - Node Affinity & Anti-Affinity & nodeSelector
