@@ -74,13 +74,30 @@ Label / Labeling :-
 
 --> Add Label - Some examples are
 
-    # kubectl label pods my-pod new-label=awesome 
+    - Add label on existing resource
+
+        $ kubectl label <resource> <resource name> <label (key=value)>
+
+        $ kubectl label node node01 color=blue
+
+    # kubectl label pods my-pod new-label=awesome
 
     # kubectl label node node01 color=blue
+
+    # Examples :- Get pods with labels
+
+        $ ktl get pods --selector env=dev
+
+    # Multiple selectors
+
+        $ kgp --selector env=prod,bu=finance,tier=frontend
 
 ==============
 Scheduling :-
 ==============
+
+    - No pod will be scheduled without kube-scheduler pod in kube-system
+    - Pod will be in "Pending" state
 
     1. DaemonSet
         - Almost same as ReplicaSet except kind is DaemonSet
@@ -90,16 +107,25 @@ Scheduling :-
             - flannel
                 etc.
 
+        - To see on how many nodes the DaemonSet is scheduled
+
+            $ kubectl describe ds <ds name> <namespace> 
+
+            And look for
+
+            - Desired Number of Nodes Scheduled: 2
+            - Current Number of Nodes Scheduled: 2
+
     2. ReplicationController / ReplicaSet
 
     3. Taints & Tolerations are meant to apply on nodes to accept certain pods to run on that node
         - It doesn't guarantee that tolerant pod will be deployed on tainted node, it just guarantee that no other in-tolerant pod gets deployed on that node.
-        - Pod / Node guarantee achieved by "Node Affinity"
+        - Pod - Node guarantee achieved by "Node Affinity"
 
             --> Create a taint on node01 with key of 'spray', value of 'mortein' and effect of 'NoSchedule'
                 Syntax
                     # kubectl taint nodes node1 key1=value1:NoSchedule
-                    eg. 
+                    eg.
                     # kubectl taint node node01 spray=mortein:NoSchedule
 
             --> Add Tolerataion to Pod
@@ -134,8 +160,12 @@ Scheduling :-
         - There two types of Affinity
             - nodeAffinity
                 - To bind pod to node
-            - podAntiAffinity
-                - 
+    
+    - Pod Affinity
+        - Match label on pod and run on same node
+
+    - Pod Anti-Affinity
+        - Match label on pod and don't run same node
 
     - Taints & Tolerance vs NodeAffinity
         - Taint a node to restrict specific type of pods ( Tolerated ) to deploy there, but that Tolerated pod can go to "other" node, where it doesn't have taint.
@@ -148,7 +178,7 @@ Scheduling :-
 
     7. Resource Request / Limit
         - Request is like pod is requesting that amount of minimum resource from node before Scheduling.
-        - Default Limit (For the POD to pick up those defaults you must have first set those as default values for request and limit by creating a LimitRange in that namespace.)
+        - Default Limit (For the POD to pick up those defaults you must have first set those default values for request and limit by creating a LimitRange in that namespace.)
             - CPU - 1 vCPU
             - Memory - 512 Mi
         - Limit is like pod should go up to that limit only
@@ -157,7 +187,7 @@ Scheduling :-
             - In case of Memory
                 - K8S will terminate that pod if it goes beyond that memory limit.
         - Pod
-            - CPU 
+            - CPU
                 - 1 = 1 vCPU / 1 Core
                 - We can specify like 0.1 / 100m ( m stands for mili )
                 - Minimum - 1m
@@ -170,22 +200,45 @@ Scheduling :-
 
     8. Custom/Multiple Scheduler
 
-        - While creating a pod, you can instruct to K8S to use specific scheduler while scheduling this pod.
+        - While creating a pod, you can instruct in K8S to use specific scheduler while scheduling this pod.
+
         - Add "--scheduler-name=<custom scheduler name> in arguments
-        - If multiple schedulers running on multiple master nodes, we have to specify --leader-elect=true as only only one active scheduler must be there & --lock-object-name.
+
+        - If multiple schedulers running on multiple master nodes, we have to specify --leader-elect=true as only one active scheduler must be there & --lock-object-name.
+
         - schedulerName is a field of PodSpec (Spec)
             - If the scheduler is not configured correctly, pod will be in a "Pending" state.
+
         - To deploy custom scheduler, copy existing schedular file from /etc/kubernetes/manifest & rename required fields and deploy.
+
+                - Multi Scheduler Practice
+
+                    - Add
+                        --secure-port=0
+                        --scheduler-name=my-scheduler
+                    - Remove
+                        - Startupprobe
+                    - change
+                        - name
+                        --port=10282
+                        --leader-elect=false
+                            ( Leader-elect needed when you want to make cluster, here we are creating new schedular )
+                        Replaced --bind-address to --address
+
+        - If you are using existing file then change port number as well
+
         - Remove startupprobe porbe from existing file
     
     9. Static pods
 
         - Create manifest file inside kubelet local directory
-            - on local node see using command #docker ps
+            - on local node see using command
+                # docker ps
 
-            - To check kubelet directory 
-                1 - controlplane $ ps -aux |grep -i kubelet
-                    And check for configured file in "--config"
+            - To check kubelet directory
+                1 - controlplane 
+                    $ ps -aux |grep -i kubelet
+                        And check for configured file in "--config"
                         usr/bin/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf --config=/var/lib/kubelet/config.yaml 
                         --network-plugin=cni --pod-infra-container-image=k8s.gcr.io/pause:3.2
 
@@ -198,6 +251,12 @@ Scheduling :-
 
         --> Check static pod on local node
             # docker ps
+
+        --> To see static pods
+            # kubectl get pods -A
+                - Look for the pods with name appended with master node
+                    Eg. $ kube-scheduler-controlplane
+                        - controlplane is master node here
 
 ==============
 Monitoring :-
@@ -368,7 +427,6 @@ Configmap :-
 
                 # kubectl create configmap colourconfigmap --fron-literal=APP_COLOR=blue
 
-
     - Declaritive :-
         - kubectl create -f <file>
 
@@ -484,10 +542,10 @@ ETCD Backup / Restore :-
                 --key=/etc/kubernetes/pki/etcd/server.key --cacert=/etc/kubernetes/pki/etcd/ca.crt
 
     - To Restore the backup
-        # etcdctl restore snapshot <directory> <snapshot name> --endpoints --cacert --cert --key --initial-token=<new etcd token name>
+        # etcdctl restore snapshot <directory> <snapshot name> --endpoints --cacert --cert --key --initial-cluster-token=<new etcd token name>
 
         # edit etcd yaml in /etc/kubernetes/manifests
-            - update volume to restored directory in manifest file.
+            - update VOLUME hostpath (not volumemount or command data-dir) to restored directory in manifest file.
             - Add --initial-token=<new etcd token name>
 
     - If you are using managed cluster, backup using quering cluster
@@ -591,7 +649,7 @@ ETCD Backup / Restore :-
     --> There are 2 types of resources
         - namespaced
         - Cluster
-        - To list the namespaced & non-namespaced resources
+        - To list the namespaced & non-namespaced resource group
             # kubectl api-resources --namespaced=true
             or
             # kubectl api-resources --namespaced=false
@@ -727,7 +785,6 @@ Volume :-
 
     - Inside Pod
 
-        - PVClaim will be there as Volume
         - Mount inside container as a volume
         - ReClaim Policy
             - Retain: When the PVC is deleted, the PV still exists. The volume is considered released, but it is not yet available because the previous data remains on the volume. If you want to delete it, you must do manually.
@@ -890,12 +947,14 @@ Networking :-
                 # curl http://web-server.apps
                 or it can be accessed via
                     # curl http://web-server.apps.svc.cluster.local
+
         - For each pod, kubernetes generates a name by replacing . (dot) with - (dash) and create dns record
             - Like 192.168.0.5 it creates record with name 192-168-0-5 & mapped with ip 192.168.0.5
                 which can be accessed via
                 # curl http://192-168-0-5.apps.pod.cluster.local
                     Where [apps] is namespace, if its in default namespace, then it will be like # curl http://192-168-0-5.default.pod.cluster.local
                     ( mind here that name for pods can be accessed with subdomain [pod] and services via [svc])
+
         - Configuration of coreDNS can be found at  
             - /etc/cordns/Corefile
 
@@ -911,7 +970,6 @@ Networking :-
                 Except - web-server.default.svc.cluster (cluster at the end)
                 where
                     default = namespace
-            
             - To query pod we have to enter whole line like
                 # host 10-244-5-55.default.pod.cluster.local
     - ingress
@@ -1032,7 +1090,7 @@ Install Cluster using kubeadm :-
             # kubectl logs <pod name> -f --previous
 
             - Verify all pods are running in kube-system namespace
-            - Check logs 
+            - Check logs
                 # kubectl logs kube-apiserver
 
     - If control plane components are deployed as services (not by kubeadm)
@@ -1121,21 +1179,17 @@ Install Cluster using kubeadm :-
 Questions for Exam :-
     - Do we need to generate/ configure or install certificates / troubleshoot certificates in exam ?
     - Do we need to set up k8s cluster using compiling method (Hard Way) or just Kubeadm way ?
-    - Kubeconfig "server" points to kubeapi server ?
-    - Do we need to create or modify roles ?
     - Need to Memorize Yaml syntax and all required field in Yaml ?
-    - Which Network type should be installed in exam cluster / Do we need to install/configure networking manually on clusters in exam ?
     - Can we use our local system VS Code / Terminal ?
     - Can we copy terminal aliases from our local system ?
     - Do we need to install/configure coreDNS or similar other services ?
-    - Do we need to create/configure ingress controller in exam ?
     - Do we need to configure separate etcd cluster in exam ?
     - Which network plugin to install while installing cluster ? How to get its installation command as its not there on kubernetes docs page now?
     - Questions related to Taints / NodeAffinity ? if yes, at which level ?
     - Should I conver PodAntiAffinity ?
     - Which are the authorization types should I refer for exam ?
     - Do we need to handle apigroup ?
-    - Do we have to do storage static provisioning as its related to cloud ?
+    - Do we have to do storage class provisioning as its related to cloud ?
     - Should I go deeper into the Network Namespaces ?
     - Do we need to install DNS or troubleshoot it ?
     - Installatin of Ingress controller is a part of course or just Ingress rules ?

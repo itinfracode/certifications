@@ -7,36 +7,54 @@ alias ktl='kubectl'
 alias kgp='kubectl get pods -o wide'
 alias kgpa='kubectl get pods -A -o wide'
 alias kgs='kubectl get svc -o wide'
-alias kgsa='kubectl get svc --A -o wide'
-alias kgd='kubectl get deployments'
-alias kgda='kubectl get deployments --A'
+alias kgsa='kubectl get svc -A -o wide'
+alias kgd='kubectl get deployments -o wide'
+alias kgda='kubectl get deployments -A -o wide'
 alias kgn='kubectl get nodes -o wide'
 alias kn="kubectl config set-context --current --namespace"
 alias ns="kubectl config view --minify |grep -i namespace"
-export do="--dry-run=client -o yaml" 
+alias kcc="kubectl config current-context"
+
+export do="--dry-run=client -o yaml"
 
 complete -F __start_kubectl ktl
 source <(kubectl completion bash)
 
-
 alias ke="kubectl explain" (super important when a typo error is blocking your way to the glory!)
-alias kcc="kubectl config current-context"
 
         vimrc:- 
 
             syntax on
-            set paste nu et ts=2 sw=2 nowrap
-
-    - Reverse search
-
-        $ Press keyboard shortcut "Ctrl+r" & type to search
-        $ Press "Ctrl+r" to scroll up        
-
-    - Always use namespace in yaml metadata if you are working on any other namespace
+            set paste nu nowrap et ts=2 sw=2
 
     - To switch to root user in exam
 
         $ sudo -i
+
+    - Verify indentations with doc carefully before applying
+
+    - Copy etcd backup file to other path safer side
+
+    - NodeAffinity
+        - User quotes ('') in key if key has special characters
+
+    - User --dry-run after image & before commands argument
+
+    --> Dry Run and create only yaml through kubectl command example (Note --dry-run=client and -o yaml)
+
+        # kubectl run --restart=Never --image=busybox static-busybox --dry-run=client -o yaml --command -- sleep 1000 >> busybox.yaml
+
+    - Always use namespace in yaml metadata if you are working on any other namespace
+
+    - All available cni plugins on this host can be listed in directory mentioned at cni-binary-dir which can be grabbed via $ps -aux |grep -i kubelet |grep -i cni
+
+        - And that binary would be configured in /etc/cni/net.d/<file> as "type"
+
+    - In networkpolicy, use podselector at first, otherwise it will become child of port
+
+    - Use "envFrom" if you want to load whole secret and use "env" and specific key
+
+    - While troubleshooting, see architecture and values provided there and match. Answer is there itself.
 
     - Don't just start application after Troubleshooting, verify the parameters required by exam are set properly and satisfied.
 
@@ -47,17 +65,40 @@ alias kcc="kubectl config current-context"
     - Check kubelet process configuration file with
         # ps -ef |grep -i kubelet
 
+    - How to check Ip range of pods & cluster subnet configuration ?
+
+        - check logs of weave pod (network plugin pod) and look for
+            - ipalloc-range:10.32.0.0/12
+
+    - How to check ip range of services
+
+        - cat /etc/kubernetes/manifests/kube-apiserver.yaml | grep cluster-ip-range and look for
+            --service-cluster-ip-range=10.96.0.0/12
+
+    - It means, for pod network range look into network plugin pod & for service kube-api pod
+
+    - To check type of kube-proxy deployed
+        $ ktl logs kube-proxy-n26kb -n kube-system & check proxy mode
+
     - kube-proxy is a daemonset, so to edit that
         # kubectl edit ds kube-proxy -n kube-system
 
-    - # kubectl -A (-A means --all-namespaces)
+    - If you want to give access to storage system, create role with resource Persistentvolumes & storageclasses
 
-    - Never delete a resource before checking output file
+    - Never delete a resource before verifying content of output file
 
     - Don't forget to change namespace to default once your task in other namespace is done
 
-    - Add label on kubectl command with -l <label>
+    - Creat enew pod and add label on kubectl command with -l <label>
         Eg. - ktl run redis --image=redis:alpine -l tier=db
+
+    - Add label on existing resource
+
+        $ kubectl label <resource> <resource name> <label (key=value)>
+
+        $ kubectl label node node01 color=blue
+
+    --> ETCD has its own CA, note that while Troubleshooting api server
 
     --> If you are exporting using -o yaml and get multiple metadata content, exclude using grep -v like
 
@@ -83,6 +124,8 @@ Very Important Note
             # Ingress rule with Host
             - https://kubernetes.io/docs/concepts/services-networking/ingress/#hostname-wildcards
 
+    - Verify path and service match with each other if there are multiple services and paths.
+
 - Changing namespaces during exam means you need to return to default ns for every single question
 
 - Kubectl get pods, READY shows running containers in pod / total containers in pod
@@ -104,6 +147,7 @@ Very Important Note
                   # yes
                   # kubectl auth cani-i delete deployments
                   # no
+
     - To check access of a user as an admin
         # kubectl auth can-i create deployment --as <username>
             Eg. # kubectl auth can-i create deployment --as otheruser
@@ -113,4 +157,6 @@ Very Important Note
 
 # Creates temp pods with bash terminal, deletes after the session is over / Exit from terminal
 
-    Create temporary pod - kubectl run nginx-pod --image nginx --rm --it -- bash
+    - create temporary pod
+
+        $ kubectl run nginx-pod --image nginx --rm --it -- bash
