@@ -62,8 +62,11 @@ CSR Name must be same as requested
 
 Match everyting with requested parameters on right side
 
-Ask Amandeep - 
+Verify labels on pod & service 
 
--- ETCDCTL installed on master node or not ? Or we have to backup or restore from another node ?
+Install etcd client 
+    - apt-get install etcd-client
 
-- Can we ssh into the worker node without any key or password ?
+https://medium.com/@reuvenharrison/an-introduction-to-kubernetes-network-policies-for-security-people-ba92dd4c809d
+
+https://medium.com/bb-tutorials-and-thoughts/kubernetes-learn-sidecar-container-pattern-6d8c21f873d

@@ -748,6 +748,58 @@ ETCD Backup / Restore :-
 
     - Network policies aren't supported on Flannel
 
+    { } -- selects everything
+    [ ] -- selects nothing
+
+    - If you are blocking everything outgoing (egress), allow dns server access to resolve service name (both Udp/tcp ports)
+
+            - ports:
+                - protocol: TCP
+                port: 53
+                - protocol: UDP
+                port: 53
+
+    - Use separate from/to fields if you want to point separate pod on separate port
+
+                                            apiVersion: networking.k8s.io/v1
+                                            kind: NetworkPolicy
+                                            metadata:
+                                            name: internal-policy
+                                            namespace: default
+                                            spec:
+                                            podSelector:
+                                                matchLabels:
+                                                name: internal
+                                            policyTypes:
+                                            - Egress
+                                            egress:
+                                            - to:
+                                                - podSelector:
+                                                    matchLabels:
+                                                    name: payroll
+                                                ports:
+                                                - protocol: TCP
+                                                port: 8080
+                                            - to:
+                                                - podSelector:
+                                                    matchLabels:
+                                                    name: mysql
+                                                ports:
+                                                - protocol: TCP
+                                                port: 3306
+
+                                            - ports:
+                                                - port: 53
+                                                protocol: TCP
+                                                - port: 53
+                                                protocol: UDP
+
+    - To / From Any namesace
+        - namespaceSelector: {}
+    - To / From any Pod
+        - podSelector: {}
+
+
 ==============
 Volume :-
 ==============
