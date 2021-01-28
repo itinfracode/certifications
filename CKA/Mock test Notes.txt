@@ -1,0 +1,69 @@
+Mock test Notes :-
+
+Note "Static pod" - 
+
+temporary pod syntax
+
+    kubectl run test-pod --image=busybox:1.28 --restart=Never --rm -it -- nslookup nginx-resolver-service
+
+    If you can't spin up temporary pod, run busybox with sleep 50000 command
+
+pod dns resolution syntax
+
+    - <POD IP>.<ns>.pod
+    - example - 192-168-0-1.deafult.pod
+
+Take care of requested names in question
+
+Use key & values provided to taint node
+
+Multi Pod - env variable - Key & Value must be there
+
+If you are working on serviceaccount while creating rolebinding or clusterrolebinding use --serviceaccount, instead of simple --user
+    - When we run pod with specific service account, it mounts account's secret
+    - Verify that in description
+    - must provide namespace with serviceaccount
+
+- Check how to install completion in bash
+
+    - apt-get install bash-completion
+
+- NodeAffinity Practice
+
+    Journal list files
+        - 
+
+    - JSON PATH
+
+        - # Get ExternalIPs of all nodes
+            kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP")].address}'
+    
+    Sidecar
+
+    Nginx manual page
+
+Network Troubleshooting
+
+    - Check for kube-proxy for networking troubleshooting
+    - Check for network endpoints
+    - Check weave (cni) logs
+    - DNS pod / svc - selector 
+    - Connection refused can come because of wrong selector as well
+
+ktl create svc nodeport syntax
+
+    - kubectl create service nodeport <myservicename>
+
+- Delete "claimRef" from pv to release old claim from pv
+
+- Nginx pod expose port - 80
+
+CSR Name must be same as requested
+
+Match everyting with requested parameters on right side
+
+Ask Amandeep - 
+
+-- ETCDCTL installed on master node or not ? Or we have to backup or restore from another node ?
+
+- Can we ssh into the worker node without any key or password ?

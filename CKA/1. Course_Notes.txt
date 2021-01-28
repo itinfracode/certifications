@@ -850,6 +850,10 @@ initContainer
 Networking :-
 ==============
 
+    - NodePort :- Port on node 
+    - Port :- Port on Service
+    - TargetPort :- Port on Pod (where pod is listening / application is deployed)
+
     - Network Namespace 
         - To check ip in current namespace
             # ip link

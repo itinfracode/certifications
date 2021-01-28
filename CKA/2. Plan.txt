@@ -5,6 +5,7 @@ Plan :-
 
     - Refer topics listed below & Practice all tests again
     - Refer Network Policies / Recipies
+        - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/24458474#questions
         - https://github.com/ahmetb/kubernetes-network-policy-recipes
     - Give Mock exam
     - https://github.com/alijahnas/CKA-practice-exercises
@@ -46,16 +47,9 @@ Important topics to refer again (Refer saved screenshots):-
 - Ingress Pathtype
 - Service Readiness Probe n all
 - Type of secrets
-- Certificate API Lecture
 - Understand nodeport - port - mapping
-- Etcd Backup / restore
-- MultiMaster cluster Setup using kubeadm
 - Install configure ingress ingress resources
 - Multiple Schedulers
-- Config files
-
-    - https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
-    - https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model
 
 - You will be evaluated on 10 topics around Kubernetes administation:
 

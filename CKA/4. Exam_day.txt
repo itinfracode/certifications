@@ -27,6 +27,16 @@ alias ke="kubectl explain" (super important when a typo error is blocking your w
             syntax on
             set paste nu nowrap et ts=2 sw=2
 
+    - To know about apiversion of a resource
+
+        - kubectl explain <resource name>
+        
+            eg. - kubectl explain certificatesigningrequest
+
+    - List all log files for journalctl
+
+        $ systemctl list-unit-files --all
+
     - To switch to root user in exam
 
         $ sudo -i
@@ -116,6 +126,10 @@ Very Important Note
     - check for TABs if you get error "error converting YAML to JSON: yaml: line 47: found character that cannot start any token"
     - Check and verify Indentation from doc if you get error
 
+- Json query to fetch context name of a user
+
+    $ kubectl config view --kubeconfig=my-kube-config -o jsonpath='{.contexts[?(@.context.user=="aws-user")].name}'
+
 - In exam there will be questions to create Ingress rules
 
             # Ingress Rules/Resources without host
@@ -139,7 +153,13 @@ Very Important Note
     - On Node01
         - kubeadm reset
 
+- To verify kubeconfig file
+
+    $ kubectl cluster-info --kubeconfig=<filename>
+
 - network policies — use nc command from another pod to test
+
+    $ nc -zv <host> <port>
 
     - To check my access
         # kubectl auth can-i <permission>
