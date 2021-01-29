@@ -13,7 +13,7 @@ alias kgda='kubectl get deployments -A -o wide'
 alias kgn='kubectl get nodes -o wide'
 alias kn="kubectl config set-context --current --namespace"
 alias ns="kubectl config view --minify |grep -i namespace"
-alias kcc="kubectl config current-context"
+alias kcc="kubectl config current-context" (Didn't work in exam)
 
 export do="--dry-run=client -o yaml"
 
