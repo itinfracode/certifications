@@ -24,7 +24,7 @@ If you are working on serviceaccount while creating rolebinding or clusterrolebi
     - Verify that in description
     - must provide namespace with serviceaccount
 
-- Check how to install completion in bash
+- If you want to install auto-complete
 
     - apt-get install bash-completion
 
