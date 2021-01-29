@@ -17,8 +17,11 @@ alias kcc="kubectl config current-context" (Didn't work in exam)
 
 export do="--dry-run=client -o yaml"
 
-complete -F __start_kubectl ktl
-source <(kubectl completion bash)
+Copy autocomplete from (Don't need to memorize)
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/#bash
+
+    complete -F __start_kubectl ktl
+    source <(kubectl completion bash)
 
 alias ke="kubectl explain" (super important when a typo error is blocking your way to the glory!)
 
