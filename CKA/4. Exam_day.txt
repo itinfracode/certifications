@@ -180,6 +180,6 @@ Very Important Note
 
 # Creates temp pods with bash terminal, deletes after the session is over / Exit from terminal
 
-    - create temporary pod
+    - Run temporary pod
 
         $ kubectl run nginx-pod --image nginx --restart=Never --rm --it -- bash
