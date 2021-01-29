@@ -790,9 +790,9 @@ ETCD Backup / Restore :-
 
                                             - ports:
                                                 - port: 53
-                                                protocol: TCP
+                                                  protocol: TCP
                                                 - port: 53
-                                                protocol: UDP
+                                                  protocol: UDP
 
     - To / From Any namesace
         - namespaceSelector: {}
@@ -1016,11 +1016,15 @@ Networking :-
 
         - Corefile is added to CoreDNS as a configmap object, to See
             - # kubectl get configmap -n kube-system
+
         - Whenever CoreDNS pod is deployed, it deploys "kube-dns" service, so ip address of "kube-dns" is configured as a nameserver in all pods, so
             - cat /etc/resolv.conf
               -> nameserver 10.0.5.55 (cluster ip of kube-dns service)
+
         - Kubelet is responsible to configure nameserver in /etc/resolv.conf file in all pods when they gets deployed
+
         - "host" command is alternative to "dig"
+
         - Only services can be queried via short name like
             # host web-server or web-server.default or web-server.default.svc or web-server.default.svc.cluster.local
                 Except - web-server.default.svc.cluster (cluster at the end)
@@ -1221,7 +1225,7 @@ Install Cluster using kubeadm :-
     - Network Troubleshooting
     
         - Check if network addon is installed or not
-        - Check controller component description / logs 
+        - Check controller component description / logs
         - Check configmaps
 
         - Kubeproxy mounts config from configmap, so we have to specify exact filename which inside configmap.

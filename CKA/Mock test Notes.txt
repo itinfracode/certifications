@@ -62,9 +62,9 @@ CSR Name must be same as requested
 
 Match everyting with requested parameters on right side
 
-Verify labels on pod & service 
+Verify labels on pod & service
 
-Install etcd client 
+Install etcd client
     - apt-get install etcd-client
 
 https://medium.com/@reuvenharrison/an-introduction-to-kubernetes-network-policies-for-security-people-ba92dd4c809d

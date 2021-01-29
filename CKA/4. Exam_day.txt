@@ -179,4 +179,4 @@ Very Important Note
 
     - create temporary pod
 
-        $ kubectl run nginx-pod --image nginx --rm --it -- bash
+        $ kubectl run nginx-pod --image nginx --restart=Never --rm --it -- bash
