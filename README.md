@@ -1,4 +1,4 @@
 # certifications
 Details about certification exams
 
-[a link](https://www.youracclaim.com/users/pratikkumarmpatel/badges)
+[My all certifications](https://www.youracclaim.com/users/pratikkumarmpatel/badges?sort=-state_updated_at&page=1)
