@@ -3,7 +3,7 @@ Plan :-
 
     - Disable address bar google search suggestions
 
-    - Refer topics listed below & Practice all tests again
+    - Practice all labs again
     - Refer Network Policies / Recipies
         - https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/24458474#questions
         - https://github.com/ahmetb/kubernetes-network-policy-recipes
@@ -29,16 +29,7 @@ Practice on local machine :-
     
     - https://github.com/arush-sal/cka-practice-environment
 
-Test / Check during lab
-
-- kubectl get events
-- kubectl expose command
-- kubectl explain command
-
-alias ke="kubectl explain" (super important when a typo error is blocking your way to the glory!)
-alias kcc="kubectl config current-context"
-
-Important topics to refer again (Refer saved screenshots):-
+Important topics to refer again (And saved screenshots) :-
 
 - Taints & Tolerations
 - Node Affinity & Anti-Affinity & nodeSelector
