@@ -2,6 +2,11 @@
 Plan :-
 
     - Disable address bar google search suggestions
+        - Go to Chrome Settings
+        - "Sync & Google Services"
+        - Disable "Autocomplete searches and URLs"
+
+        Note:- Don't forget to re-enable after exam if you are using address bar as a search engine on daily basis.
 
     - Practice all labs again
     - Refer Network Policies / Recipies
