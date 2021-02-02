@@ -25,3 +25,5 @@
 ### My CKA Certificate
 
 ![alt text](https://github.com/itinfracode/certifications/blob/main/CKA/CERTIFICATE.JPG)
+
+Please feel free to reach via [Twitter](https://twitter.com/pratik459) or [LinkedIn](https://www.linkedin.com/in/pratikkumarmpatel//)
