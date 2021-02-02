@@ -18,6 +18,10 @@
 6. [Final_Bookmarks_CKA.html](https://github.com/itinfracode/certifications/blob/main/CKA/6.%20Final_bookmarks_CKA.html)
     - These are the TAGGED bookmarks, using them you can just search keyword in your address-bar and it will show you best url
 
+### Please start discussion using below link if you want me to update or add any topic
+
+[https://github.com/itinfracode/certifications/discussions](https://github.com/itinfracode/certifications/discussions)
+
 ### My CKA Certificate
 
 ![alt text](https://github.com/itinfracode/certifications/blob/main/CKA/CERTIFICATE.JPG)
