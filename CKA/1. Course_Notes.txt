@@ -1237,28 +1237,19 @@ Install Cluster using kubeadm :-
                 - Match its selector with core-dns pods
 
 Questions for Exam :-
-    - Do we need to generate/ configure or install certificates / troubleshoot certificates in exam ?
-    - Do we need to set up k8s cluster using compiling method (Hard Way) or just Kubeadm way ?
-    - Need to Memorize Yaml syntax and all required field in Yaml ?
-    - Can we use our local system VS Code / Terminal ?
-    - Can we copy terminal aliases from our local system ?
-    - Do we need to install/configure coreDNS or similar other services ?
-    - Do we need to configure separate etcd cluster in exam ?
-    - Which network plugin to install while installing cluster ? How to get its installation command as its not there on kubernetes docs page now?
-    - Questions related to Taints / NodeAffinity ? if yes, at which level ?
-    - Should I conver PodAntiAffinity ?
-    - Which are the authorization types should I refer for exam ?
-    - Do we need to handle apigroup ?
-    - Do we have to do storage class provisioning as its related to cloud ?
-    - Should I go deeper into the Network Namespaces ?
-    - Do we need to install DNS or troubleshoot it ?
-    - Installatin of Ingress controller is a part of course or just Ingress rules ?
-
-Weavenet Installation error localhost:8080 refused workaround 
-
-    # kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
-        The connection to the server localhost:8080 was refused - did you specify the right host or port?
-    # sudo cp /etc/kubernetes/admin.conf $HOME/
-    # sudo chown $(id -u):$(id -g) $HOME/admin.conf
-    # export KUBECONFIG=$HOME/admin.conf
+    - Do we need to generate/ configure or install certificates / troubleshoot certificates in exam ? - No
+    - Do we need to set up k8s cluster using compiling method (Hard Way) or just Kubeadm way ? - Only Kubeadm way
+    - Need to Memorize Yaml syntax and all required field in Yaml ? - No (Just copy from k8s.io/docs page)
+    - Can we use our local system VS Code / Terminal ? - No
+    - Can we copy terminal aliases from our local system ? - No
+    - Do we need to install/configure coreDNS or similar other services ? - No
+    - Do we need to configure separate etcd cluster in exam ? - No
+    - Which network plugin to install while installing cluster ? How to get its installation command as its not there on kubernetes docs page now? - Network plugin installation is not a part of exam syllabus
+    - Questions related to Taints / NodeAffinity ? if yes, at which level ? - Yes (Almost same as Mock Test / Lightning Test)
+    - Should I conver PodAntiAffinity ? - Under concept
+    - Which are the authorization types should I refer for exam ? - RBAC
+    - Do we have to do storage class provisioning as its related to cloud ? - No (Already provisioned if you are asked to use StorageClass)
+    - Should I go deeper into the Network Namespaces ? - No
+    - Do we need to install DNS or troubleshoot it ? - Only Troubleshooting
+    - Installatin of Ingress controller is a part of course or just Ingress rules ? - No (Only Ingress Resources)
 
