@@ -1,7 +1,11 @@
 
-When Starting Exam :-
+To know exactly how exam UI will look like, check this youtube video :-
 
-    - Set Aliases & autocomplete
+https://youtu.be/ZByl-a-eghc?t=513
+
+Before Starting Exam :-
+
+- Set Aliases & autocomplete in ~/.bashrc file
 
 alias ktl='kubectl'
 alias kgp='kubectl get pods -o wide'
@@ -15,9 +19,10 @@ alias kn="kubectl config set-context --current --namespace"
 alias ns="kubectl config view --minify |grep -i namespace"
 alias kcc="kubectl config current-context" (Didn't work in exam)
 
-export do="--dry-run=client -o yaml"
+export do="--dry-run=client -o yaml" ( This can be used by "$do" on terminal )
 
-Copy autocomplete from (Don't need to memorize)
+Copy autocomplete from cheat sheet (Don't need to memorize)
+
 https://kubernetes.io/docs/reference/kubectl/cheatsheet/#bash
 
     complete -F __start_kubectl ktl
@@ -25,16 +30,16 @@ https://kubernetes.io/docs/reference/kubectl/cheatsheet/#bash
 
 alias ke="kubectl explain" (super important when a typo error is blocking your way to the glory!)
 
-        vimrc:- 
+        ~/.vimrc:-
 
             syntax on
             set paste nu nowrap et ts=2 sw=2
 
-    - To know about apiversion of a resource
+- To know about apiversion of a resource
 
-        - kubectl explain <resource name>
+    - kubectl explain <resource name>
         
-            eg. - kubectl explain certificatesigningrequest
+    eg. - kubectl explain certificatesigningrequest
 
     - List all log files for journalctl
 
