@@ -20,7 +20,7 @@
 
 ### Please start discussion using below link if you want me to update or add any topic
 
-[https://github.com/itinfracode/certifications/discussions](https://github.com/itinfracode/certifications/discussions)
+[CKA exam discussions](https://github.com/itinfracode/certifications/discussions)
 
 ### My CKA Certificate
 
