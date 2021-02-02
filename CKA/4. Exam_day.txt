@@ -1,7 +1,7 @@
 
 To know exactly how exam UI will look like, check this youtube video :-
 
-[K8S Exam UI](https://youtu.be/ZByl-a-eghc?t=513)
+https://youtu.be/ZByl-a-eghc?t=513
 
 Before Starting Exam :-
 
