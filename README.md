@@ -9,4 +9,4 @@ Details and Notes about certifications
 
 ![alt text](https://github.com/itinfracode/certifications/blob/main/All_Badges.png)
 
-Please feel free to reach via [Twitter](https://twitter.com/pratik459) or [LinkedIn](https://www.linkedin.com/in/pratikkumarmpatel//)
+Please feel free to reach via [Twitter](https://twitter.com/pratik459) or [LinkedIn](https://www.linkedin.com/in/pratikkumarmpatel/)
