@@ -546,7 +546,7 @@ ETCD Backup / Restore :-
 
         # edit etcd yaml in /etc/kubernetes/manifests
             - update VOLUME hostpath (not volumemount or command data-dir) to restored directory in manifest file.
-            - Add --initial-token=<new etcd token name>
+            - Add --initial-cluster-token=<new etcd token name>
 
     - If you are using managed cluster, backup using quering cluster
         # kubectl get all --all-namespaces -o yaml >> all-backup.yaml
