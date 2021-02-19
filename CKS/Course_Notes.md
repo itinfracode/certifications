@@ -1,12 +1,12 @@
 ### Scope of the CKS
---------------------
+-------------------------
 
-Host OS Security :-
+- Host OS Security :-
     - Remove unnecessary apps
     - UptoDate
     - Restrict IAM or SSH access
 
-K8S cluster Security :-
+- K8S cluster Security :-
     - UptoDate components
         - ApiServer
         - Kubelet
@@ -21,7 +21,7 @@ K8S cluster Security :-
     - CIS Benchmarking Tool
     - ETCD Security
 
-Application Security :-
+- Application Security :-
     - No Hardcoded secrets in Docker or Repository
     - RBAC
     - Container Sandboxing
@@ -32,9 +32,9 @@ Application Security :-
     - Vulnerability Scan
     - mTLS / ServiceMesh
 
---------------------
+-------------------------
 ### Architecture
---------------------
+-------------------------
 
 - CA (Certificate Authority)
 - PKI (Public Key Infrastructure)
