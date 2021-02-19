@@ -32,8 +32,10 @@
     - Vulnerability Scan
     - mTLS / ServiceMesh
 
+- https://www.youtube.com/watch?v=wqsUfvRyYpw
+
 -------------------------
-### Architecture
+### Certificate Architecture
 -------------------------
 
 - CA (Certificate Authority)
@@ -65,6 +67,7 @@
         - front-proxy-client.key 
             - Used by API Server to communicate to kube-proxy
         - sa.key
+            - 
         - sa.pub
 
     - etcd/
@@ -85,3 +88,48 @@
             - ETCD Server Certificate
         - server.key
             - ETCD Server key
+        
+    - Scheduler
+        - Certificate used by Scheduler to connect Kube-API certificate, can be found inside
+            - /etc/kubernetes/scheduler.conf file
+                - Look for 
+                    - "client-certificate-data" for certificate
+                    - "client-certificate-key" for key
+
+    - Controller-Manager
+        - Certificate used by Controller-Manager to connect Kube-API certificate, can be found inside
+            - /etc/kubernetes/controller-manager.conf file
+                - Look for 
+                    - "client-certificate-data" for certificate
+                    - "client-certificate-key" for key
+
+    - Kubelet
+        - Certificate used by kubelet to connect Kube-API certificate, can be found inside
+            - /etc/kubernetes/kubelet.conf file
+                - Look for
+                    - "client-certificate" for certificate
+                    - "client-key" for key
+        - Kubelet Server
+            - /var/lib/kubelet/pki/
+                - kubelet.crt
+                    - kubelet server certificate
+                - kubelet.key
+                    - kubelet server key
+
+- https://www.youtube.com/watch?v=gXz4cq3PKdg
+- https://kubernetes.io/docs/concepts/overview/components
+- https://kubernetes.io/docs/setup/best-practices/certificates
+
+-------------------------
+### Containers
+-------------------------
+- Container Isolation
+    - Linux Namespaces  - Restrict what processes can see (Other process/user/filesystem)
+    - CGroups           - Restrict the resource usage of a process (cpu/memory/disk)
+
+- To create docker container with shared pid namespace
+    - $ docker run --name c2 --pid=container:c1 -d ubuntu sh -c 'sleep 999d'
+        - It will use container c1's namespace for processes
+
+- https://www.youtube.com/watch?v=MHv6cWjvQjM
+
