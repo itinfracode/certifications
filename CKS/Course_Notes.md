@@ -1,4 +1,5 @@
 ### Scope of the CKS
+--------------------
 
 Host OS Security :-
     - Remove unnecessary apps
