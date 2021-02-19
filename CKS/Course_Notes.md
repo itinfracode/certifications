@@ -1,6 +1,4 @@
-#########################
-##### Scope of the CKS
-#########################
+### Scope of the CKS
 
 Host OS Security :-
     - Remove unnecessary apps
@@ -34,7 +32,7 @@ Application Security :-
     - mTLS / ServiceMesh
 
 #########################
-##### Architecture
+### Architecture
 #########################
 
 - CA (Certificate Authority)
