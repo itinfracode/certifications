@@ -1,5 +1,5 @@
 #########################
-# SCOPE OF THE CKS
+##### Scope of the CKS
 #########################
 
 Host OS Security :-
@@ -34,7 +34,7 @@ Application Security :-
     - mTLS / ServiceMesh
 
 #########################
-# Architecture
+##### Architecture
 #########################
 
 - CA (Certificate Authority)
