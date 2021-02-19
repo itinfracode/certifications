@@ -32,9 +32,9 @@ Application Security :-
     - Vulnerability Scan
     - mTLS / ServiceMesh
 
-#########################
+--------------------
 ### Architecture
-#########################
+--------------------
 
 - CA (Certificate Authority)
 - PKI (Public Key Infrastructure)
