@@ -1,0 +1,70 @@
+====================================
+Certified Hashicorp Consul Associate
+====================================
+
+What's consul ?
+    - Cloud networking automation for dynamic infrastructure
+        - Service discovery
+        - Service segmentation
+        - Service configuration
+
+    - Platform / Application & Cloud Agnostic
+
+Enterprise version has additional -
+    - Automated backups
+    - Automated upgrades
+
+Core Features :-
+    - Dynamic Service Registration
+    - Service discovery
+    - Distributed Health Checks
+    - Centralized K/V Storage
+    - ACL
+    - Segmentation of services
+    - Cross cloud/data center availability
+    - API / UI & Cli interfaces
+
+Service Discovery :-
+    - Centralized service registry
+        - Registry keeps track about which node is healthy and which node is unhealthy.
+    - Reduce or eliminate load balancers for frontend services
+    - Realtime Health Monitoring through local agents
+        - Node level health checks
+        - Application level health checks
+    - Automate networking and security using identity-based auth
+        -  Avoiding ip/firewall based security
+    - Seamless traffic redirection among multiple Data centers
+
+Service Mesh :-
+    - Enable secure communication between different services
+        - Uses mTLS
+        - Sidecar architecture (Alongside the registered service)
+        - (Envoy proxy) Transparently handles inbound/outbound connection
+    - Define ACL for services
+        - Define which service can establish connectivity to other service
+    - Consul will push out a mtls certificate whenever you create a new intention for a service to ensure denial of the connectivity.
+
+Network Automation :-
+    - Allows dynamic load balancing between services which are supported by consul 
+        - Send traffic to healthy node / service
+        - In case of multiple instances available for same service, use traffic shaping to influence how traffic is sent
+    - Support other networking solutions
+        - F5 / Nginx / HAProxy / Envoy
+    - L7 Traffic Management
+        - Service Failover
+        - Path based routing (sub-directory)
+        - Traffic Shifting
+    - Increase L7 visibility metrics can be enabled on Envoy Proxy
+        - Connections
+        - Timeouts
+        - Open circuits
+        - etc.
+
+Service configuration :-
+    - Distributed K/V Store
+        - All data gets replicated to all the consul servers
+        - Store configuration & parameters
+        - Can be accessed by client or server agent through cli, ui or api
+        - Very important to enable ACL to restrict access to objects.
+        - KV object size can be maximum 512 KB / No restriction on type of the object
+        - Not a directory structure
