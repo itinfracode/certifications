@@ -2,6 +2,13 @@
 Certified Hashicorp Consul Associate
 ====================================
 
+Course Details :-
+
+    - Platform :- Udemy
+    - Course Name :- Getting Started with HashiCorp Consul 2021
+    - Author :- Bryan Krausen
+    - URL :- https://www.udemy.com/course/hashicorp-consul/
+
 What's consul ?
     - Cloud networking automation for dynamic infrastructure
         - Service discovery
@@ -43,6 +50,7 @@ Service Mesh :-
     - Define ACL for services
         - Define which service can establish connectivity to other service
     - Consul will push out a mtls certificate whenever you create a new intention for a service to ensure denial of the connectivity.
+    - https://www.consul.io/docs/connect/gateways/mesh-gateway
 
 Network Automation :-
     - Allows dynamic load balancing between services which are supported by consul 
@@ -68,3 +76,161 @@ Service configuration :-
         - Very important to enable ACL to restrict access to objects.
         - KV object size can be maximum 512 KB / No restriction on type of the object
         - Not a directory structure
+
+Consul Service :-
+    - Agent can be running as different modes
+        - Server / Server agent / Consul Node
+        - Client / Client Agent
+        - Dev (Local laptop/computer for testing)
+
+Key Protocols :-
+    - Consensus Protocol :- (Based on RAFT)
+        - Used only by server nodes
+        - Strongly
+        - Responsible for :-
+            - Leadership Election
+            - Maintaining log entries across all server nodes
+            - Establishing a quorum
+                - Quorum
+                    - A quorum requires at least (n+1)/2 members to elect a leader
+                        Eg. Five node cluster = (5+1)/2 = 3 minimum members requires to elect a leader
+                        - If one more node goes down, consul can't elect a leader and consul service goes down.
+                - https://raft.github.io/
+
+        - RAFT nodes can be in one of these 3 states
+            - Leader - One cluster can have only 1 leader and it will remain leader until node or consul service fails.
+                - Ingesting new log entries
+                - Process queries and transactions
+                - Replicating logs to followers
+                    - Leader Election
+                        - Based on randomized election timeouts
+                            - Leader sends heartbeats to follower frequently
+                            - Each server has timeout configured for server
+                            - If a heartbeat isn't received from leader, the follower assume that leader is dead and an election takes place
+                            - Node changes its state to candidate, vote for itself and issue request for votes to establish majority.
+
+            - Follower - By default all nodes are follower, if its promoted to leader, otherwise it remains follower.
+                - Forwarding RPC calls/requests to the leader
+                - Casting vote for leader election
+                - Accepting logs from leader
+            - Candidate - During voting time a node would be in candidate stage (For a millisecond of time)
+            - https://raft.github.io/
+
+    - Gossip Protocol (Based on SERF) (Used cluster-wide / used by Server & Clients)
+        - Manage membership of the cluster
+        - Build broadcast messages like connectivity failures and etc.
+        - Reliable and fast broadcasts across datacenters to discover any cross datacenter client
+        - Use gossip pools
+            - LAN
+                - Each datacenter has its own LAN gossip pool to take care of all local operations
+                - Failure detection duties
+                - Membership information
+            - WAN
+                - Need to federate multiple datacenters, so that clients from one DC can communicate to another DC
+                - Allows server to perform cross datacenter requests
+                - Assist handling single server or datacenter failures
+        - https://www.serf.io/docs/internals/gossip.html
+
+Network Traffic & Ports
+    - All communications happens over http and https
+    - All network communications are protected by TLS and gossip key
+    - Default Ports
+        - HTTP api & GUI - tcp/8500 (Secured by TLS)
+        - LAN Gossip - tcp & udp/8301
+        - WAN Gossip - tcp & udp/8302
+        - RPC - tcp/8300
+        - DNS - tcp & udp/8600
+        - Sidecar Proxy - 21000-21255
+    - Accessing Consul
+        - API can be accessed by any machine in the network
+        - UI  can be enabled in configuration file and accessed from anywhere in network
+        - CLI can be accessed and configured by any server node
+
+High Availability :-
+    - Can be achieved using clustering
+    - Hashicorp recommend 3-5 server in a cluster & not more than 7 servers
+        - Consul generates lots of traffic for replication
+        - More than 7 servers could negatively impact network
+    - Use Consensus protocol to establish cluster leader
+    - Quorum size and failure tolerance for various cluster sizes
+        - https://www.consul.io/docs/architecture/consensus#deployment_table
+
+Enterprise features :-
+    - Read replicas
+        - Scale cluster to include read replicas to improve reads
+        - Participate only in replication
+        - Do not take part in quorum election
+        - Voting / Non-Voting members
+            - Non voting members
+                - Do not take part in quorum election
+                - Generally used in redundancy zones
+                - Can be configured using
+                    - non_voting_member setting in config file
+                    - non-voting-member/read-replica flag using CLI
+        - https://www.consul.io/docs/agent/options#_read_replica
+        - https://www.consul.io/docs/enterprise/read-scale
+
+    - Redundancy Zones (Fault zones)
+        - Provide scaling and resiliency benefits by using non-voting servers
+        - One fault zone has only 1 voting member
+        - If voting member fails, non-voting member got promoted to voting member in same fault zone
+        - If entire AZ fails, non-voting member in surviving fault zone gets promoted to maintain quorum
+        - https://www.consul.io/docs/enterprise/redundancy
+    
+    - AutoPilot (ON by default)
+        - Built in solution to manage consul nodes
+            - Dead server cleanup
+            - Server stabilization
+            - Redundancy zone tagging
+            - Automated upgrades
+        - https://learn.hashicorp.com/tutorials/consul/autopilot-datacenter-operations
+
+Setup Consul :-
+
+    - https://learn.hashicorp.com/tutorials/consul/get-started-agent
+
+    - Download binary
+    - Configure
+    - Start Process in dev mode
+        - $ consul agent -dev
+    - Start/Restart process using systemctl
+        - $ systemctl start consul
+        - $ systemctl restart consul
+    - To see list of cluster members
+        - $ consul members
+    
+    - Reloadable configurations
+        - https://www.consul.io/docs/agent/options#reloadable-configuration
+
+    - Permanently remove node
+        - Go to node and execute command
+            - $ consul leave (This will remove agent from cluster and mark it as left)
+            - To remove server totally from list or force remove any client from cluster
+                - $ consul force-leave -prune <agent name>
+            - $ systemctl stop consul
+    
+    - Reload configuration
+        - $ consul reload
+        - https://www.consul.io/docs/agent/options#reloadable-configuration
+
+    - Agent Configuration file parameters
+        - server (true/false)                   :- This is a server or not ?
+        - datacenter (string)                   :- Name of the datacenter
+        - node (string)                         :- Unique name of the node (Server's hostname)
+        - join/retry_join/auto-join (string)    :- Which other server/cluster to join
+        - client_addr/bind_addr/advertise_addr (string) :- which ip address to use for communication (Local IP)
+        - log_level (string)                    :- Level of logging (trace,debug,info,etc)
+        - encrypt (string)                      :- Gossip secret to use for consul traffic encryption
+        - datadir (string)                      :- A persistent directory for agent to store state
+    
+    - Service configuration file
+        - name (string)     :- Logical name of the service (web,app,webapp,etc.)
+        - id (string)       :- Unique id of this service ()
+        - port (integer)    :- Which local port the service is running on ? (80,8080,443,etc.)
+        - check (arguments) :- Argument for service health check
+
+    - Join a cluster
+        - $ consul join <any cluster host> (Host can be any member server/client)
+        - View cluster leader/follower details
+            - $ consul operator raft list-peers
+
